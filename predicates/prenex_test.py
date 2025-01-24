@@ -67,9 +67,7 @@ def test_uniquely_rename_quantified_variables(debug=False):
             print("... got", result)
         assert has_uniquely_named_variables(result)
         _test_substitution(formula, result, {})
-        assert proof.assumptions == Prover.AXIOMS.union(
-            ADDITIONAL_QUANTIFICATION_AXIOMS
-        )
+        assert proof.assumptions == Prover.AXIOMS.union(ADDITIONAL_QUANTIFICATION_AXIOMS)
         assert proof.conclusion == equivalence_of(formula, result)
         assert proof.is_valid()
 
@@ -85,16 +83,12 @@ def test_pull_out_quantifications_across_negation(debug=False):
     ]:
         formula = Formula.parse(formula)
         if debug:
-            print(
-                "Testing _pull_out_quantifications_across_negation on", formula, "..."
-            )
+            print("Testing _pull_out_quantifications_across_negation on", formula, "...")
         result, proof = _pull_out_quantifications_across_negation(formula)
         if debug:
             print("... got", result)
         assert str(result) == expected
-        assert proof.assumptions == Prover.AXIOMS.union(
-            ADDITIONAL_QUANTIFICATION_AXIOMS
-        )
+        assert proof.assumptions == Prover.AXIOMS.union(ADDITIONAL_QUANTIFICATION_AXIOMS)
         assert proof.conclusion == equivalence_of(formula, result)
         assert proof.is_valid()
 
@@ -119,21 +113,15 @@ def test_pull_out_quantifications_from_left_across_binary_operator(debug=False):
         formula = Formula.parse(formula)
         if debug:
             print(
-                "Testing "
-                "_pull_out_quantifications_from_left_across_binary_operator"
-                "on",
+                "Testing " "_pull_out_quantifications_from_left_across_binary_operator" "on",
                 formula,
                 "...",
             )
-        result, proof = _pull_out_quantifications_from_left_across_binary_operator(
-            formula
-        )
+        result, proof = _pull_out_quantifications_from_left_across_binary_operator(formula)
         if debug:
             print("... got", result)
         assert str(result) == expected
-        assert proof.assumptions == Prover.AXIOMS.union(
-            ADDITIONAL_QUANTIFICATION_AXIOMS
-        )
+        assert proof.assumptions == Prover.AXIOMS.union(ADDITIONAL_QUANTIFICATION_AXIOMS)
         assert proof.conclusion == equivalence_of(formula, result)
         assert proof.is_valid()
 
@@ -158,21 +146,15 @@ def test_pull_out_quantifications_from_right_across_binary_operator(debug=False)
         formula = Formula.parse(formula)
         if debug:
             print(
-                "Testing "
-                "_pull_out_quantifications_from_right_across_binary_operator "
-                "on",
+                "Testing " "_pull_out_quantifications_from_right_across_binary_operator " "on",
                 formula,
                 "...",
             )
-        result, proof = _pull_out_quantifications_from_right_across_binary_operator(
-            formula
-        )
+        result, proof = _pull_out_quantifications_from_right_across_binary_operator(formula)
         if debug:
             print("... got", result)
         assert str(result) == expected
-        assert proof.assumptions == Prover.AXIOMS.union(
-            ADDITIONAL_QUANTIFICATION_AXIOMS
-        )
+        assert proof.assumptions == Prover.AXIOMS.union(ADDITIONAL_QUANTIFICATION_AXIOMS)
         assert proof.conclusion == equivalence_of(formula, result)
         assert proof.is_valid()
 
@@ -199,9 +181,7 @@ def test_pull_out_quantifications_across_binary_operator(debug=False):
         if debug:
             print("... got", result)
         assert str(result) == expected
-        assert proof.assumptions == Prover.AXIOMS.union(
-            ADDITIONAL_QUANTIFICATION_AXIOMS
-        )
+        assert proof.assumptions == Prover.AXIOMS.union(ADDITIONAL_QUANTIFICATION_AXIOMS)
         assert proof.conclusion == equivalence_of(formula, result)
         assert proof.is_valid()
 
@@ -232,9 +212,7 @@ def test_to_prenex_normal_form_from_uniquely_named_variables(debug=False):
             print("... got", result)
         assert is_in_prenex_normal_form(result)
         assert str(result) == pnf
-        assert proof.assumptions == Prover.AXIOMS.union(
-            ADDITIONAL_QUANTIFICATION_AXIOMS
-        )
+        assert proof.assumptions == Prover.AXIOMS.union(ADDITIONAL_QUANTIFICATION_AXIOMS)
         assert proof.conclusion == equivalence_of(formula, result)
         assert proof.is_valid()
 
@@ -261,9 +239,7 @@ def test_to_prenex_normal_form(debug=False):
         assert is_in_prenex_normal_form(result)
         assert has_uniquely_named_variables(result)
         _test_substitution(Formula.parse(pnf), result, {})
-        assert proof.assumptions == Prover.AXIOMS.union(
-            ADDITIONAL_QUANTIFICATION_AXIOMS
-        )
+        assert proof.assumptions == Prover.AXIOMS.union(ADDITIONAL_QUANTIFICATION_AXIOMS)
         assert proof.conclusion == equivalence_of(formula, result)
         assert proof.is_valid()
 

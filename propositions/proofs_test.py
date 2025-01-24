@@ -23,9 +23,7 @@ def test_variables(debug=False):
         [["~z", "~y", "~x"], "(((x|y)|z)|w)", {"z", "y", "x", "w"}],
         [["~~z"], "((~~z->z)|z)", {"z"}],
     ]:
-        rule = InferenceRule(
-            [Formula.parse(a) for a in assumptions], Formula.parse(conclusion)
-        )
+        rule = InferenceRule([Formula.parse(a) for a in assumptions], Formula.parse(conclusion))
         if debug:
             print("Testing variables of the inference rule", rule)
         assert rule.variables() == variables
@@ -84,9 +82,7 @@ def test_specialize(debug=False):
                 print("...checking that", case[0], "specializes to", case[1])
             general = InferenceRule([], case[0])
             special = InferenceRule([], case[1])
-            assert general.specialize(d) == special, "got " + str(
-                general.specialize(d).conclusion
-            )
+            assert general.specialize(d) == special, "got " + str(general.specialize(d).conclusion)
         if debug:
             print("...now checking all together in a single rule")
             general = InferenceRule([case[0] for case in cases[1:]], cases[0][0])
@@ -126,20 +122,10 @@ def test_merge_specialization_maps(debug=False):
         if debug:
             print("Testing merging of dictionaries", d1, d2)
         dd = InferenceRule._merge_specialization_maps(
-            (
-                frozendict({v: Formula.parse(d1[v]) for v in d1})
-                if d1 is not None
-                else None
-            ),
-            (
-                frozendict({v: Formula.parse(d2[v]) for v in d2})
-                if d2 is not None
-                else None
-            ),
+            (frozendict({v: Formula.parse(d1[v]) for v in d1}) if d1 is not None else None),
+            (frozendict({v: Formula.parse(d2[v]) for v in d2}) if d2 is not None else None),
         )
-        assert dd == ({v: Formula.parse(d[v]) for v in d} if d is not None else None), (
-            "got " + dd
-        )
+        assert dd == ({v: Formula.parse(d[v]) for v in d} if d is not None else None), "got " + dd
 
 
 specializations = [
@@ -270,9 +256,7 @@ def test_is_specialization_of(debug=False):
         candidate = InferenceRule([], Formula.parse(conclusion))
         if debug:
             print("Testing whether", candidate, "is a special case of", rule)
-        assert candidate.is_specialization_of(rule) == (
-            instantiation_map_infix is not None
-        )
+        assert candidate.is_specialization_of(rule) == (instantiation_map_infix is not None)
 
     # Test 2
     rule = InferenceRule([], Formula.parse("~(x|((p->(q&x))|((p|y)->(r&q))))"))
@@ -372,9 +356,7 @@ def test_is_specialization_of(debug=False):
 
 # Two proofs for use in various tests below
 
-R1 = InferenceRule(
-    [Formula.parse("(p|q)"), Formula.parse("(~p|r)")], Formula.parse("(q|r)")
-)
+R1 = InferenceRule([Formula.parse("(p|q)"), Formula.parse("(~p|r)")], Formula.parse("(q|r)"))
 R2 = InferenceRule([], Formula.parse("(~p|p)"))
 DISJUNCTION_COMMUTATIVITY_PROOF = Proof(
     InferenceRule([Formula.parse("(x|y)")], Formula.parse("(y|x)")),
@@ -492,9 +474,7 @@ def test_is_valid(debug=False):
     assert proof.is_valid()
 
     proof = Proof(
-        InferenceRule(
-            [Formula.parse("p"), Formula.parse("(x|y)")], Formula.parse("(y|x)")
-        ),
+        InferenceRule([Formula.parse("p"), Formula.parse("(x|y)")], Formula.parse("(y|x)")),
         DISJUNCTION_COMMUTATIVITY_PROOF.rules,
         DISJUNCTION_COMMUTATIVITY_PROOF.lines,
     )
@@ -643,15 +623,11 @@ def test_prove_specialization(debug=False):
         ["(q|x)", "(x|q)"],
         ["((p|y)|(~r|y))", "((~r|y)|(p|y))"],
     ]:
-        instance = InferenceRule(
-            [Formula.parse(instance_infix[0])], Formula.parse(instance_infix[1])
-        )
+        instance = InferenceRule([Formula.parse(instance_infix[0])], Formula.parse(instance_infix[1]))
         if debug:
             print(
                 "Testing proof of special case for the instance",
-                str(instance)
-                + "\nand the following proof:\n"
-                + str(DISJUNCTION_COMMUTATIVITY_PROOF),
+                str(instance) + "\nand the following proof:\n" + str(DISJUNCTION_COMMUTATIVITY_PROOF),
             )
         instance_proof = prove_specialization(DISJUNCTION_COMMUTATIVITY_PROOF, instance)
         # if debug:
@@ -668,19 +644,13 @@ def test_prove_specialization(debug=False):
         ["((~x|x)|(x|~x))", "(~x|(x|(x|~x)))"],
         ["(((p->p)|(p|p))|(p&p))", "((p->p)|((p|p)|(p&p)))"],
     ]:
-        instance = InferenceRule(
-            [Formula.parse(instance_infix[0])], Formula.parse(instance_infix[1])
-        )
+        instance = InferenceRule([Formula.parse(instance_infix[0])], Formula.parse(instance_infix[1]))
         if debug:
             print(
                 "Testing proof of special case for the instance",
-                str(instance)
-                + "\nand the following proof:\n"
-                + str(DISJUNCTION_RIGHT_ASSOCIATIVITY_PROOF),
+                str(instance) + "\nand the following proof:\n" + str(DISJUNCTION_RIGHT_ASSOCIATIVITY_PROOF),
             )
-        instance_proof = prove_specialization(
-            DISJUNCTION_RIGHT_ASSOCIATIVITY_PROOF, instance
-        )
+        instance_proof = prove_specialization(DISJUNCTION_RIGHT_ASSOCIATIVITY_PROOF, instance)
         # if debug:
         # print('Got:\n', instance_proof)
         assert instance_proof.statement == instance
@@ -694,9 +664,7 @@ def test_inline_proof_once(debug=False):
 
     rule0 = InferenceRule([Formula.parse("((x|y)|z)")], Formula.parse("(x|(y|z))"))
     # Disjunction commutativity with an unused assumption
-    rule1 = InferenceRule(
-        [Formula.parse("(~q|q)"), Formula.parse("(x|y)")], Formula.parse("(y|x)")
-    )
+    rule1 = InferenceRule([Formula.parse("(~q|q)"), Formula.parse("(x|y)")], Formula.parse("(y|x)"))
     rule2 = InferenceRule([], Formula.parse("(~p|p)"))
 
     lemma1_proof = Proof(
@@ -748,9 +716,7 @@ def test_inline_proof_once(debug=False):
     assert inlined_proof.rules == proof.rules.union(lemma2_proof.rules)
     newuse = uses_of_rule(inlined_proof, rule)
     olduse = uses_of_rule(proof, rule)
-    assert newuse == olduse - 1, (
-        "Uses of rule went from " + str(olduse) + " to " + str(newuse)
-    )
+    assert newuse == olduse - 1, "Uses of rule went from " + str(olduse) + " to " + str(newuse)
     assert inlined_proof.is_valid(), offending_line(inlined_proof)
 
     # Test inlining lemma2_proof into result of previous inlining
@@ -774,9 +740,7 @@ def test_inline_proof_once(debug=False):
     assert inlined_proof.rules == proof.rules.union(lemma2_proof.rules)
     newuse = uses_of_rule(inlined_proof, rule)
     olduse = uses_of_rule(proof, rule)
-    assert newuse == olduse - 1, (
-        "Uses of rule went from " + str(olduse) + " to " + str(newuse)
-    )
+    assert newuse == olduse - 1, "Uses of rule went from " + str(olduse) + " to " + str(newuse)
     assert inlined_proof.is_valid(), offending_line(inlined_proof)
 
     uses_before_loop = uses_of_rule(inlined_proof, lemma1_proof.statement)
@@ -793,9 +757,7 @@ def test_inline_proof_once(debug=False):
         line_number = first_use_of_rule(proof, rule)
         if debug:
             print(
-                "Testing _inline_proof_once (test "
-                + str(3 + count)
-                + "). In main proof:\n",
+                "Testing _inline_proof_once (test " + str(3 + count) + "). In main proof:\n",
                 proof,
                 "Replacing line",
                 line_number,
@@ -809,14 +771,10 @@ def test_inline_proof_once(debug=False):
         assert inlined_proof.rules == proof.rules.union(lemma1_proof.rules)
         newuse = uses_of_rule(inlined_proof, rule)
         olduse = uses_of_rule(proof, rule)
-        assert newuse == olduse - 1, (
-            "Uses of rule went from " + str(olduse) + " to " + str(newuse)
-        )
+        assert newuse == olduse - 1, "Uses of rule went from " + str(olduse) + " to " + str(newuse)
         assert inlined_proof.is_valid(), offending_line(inlined_proof)
 
-    statement = InferenceRule(
-        [Formula.parse("(x&y)"), Formula.parse("(w&z)")], Formula.parse("((y&x)&(z&w))")
-    )
+    statement = InferenceRule([Formula.parse("(x&y)"), Formula.parse("(w&z)")], Formula.parse("((y&x)&(z&w))"))
     RA = InferenceRule([Formula.parse("p"), Formula.parse("q")], Formula.parse("(p&q)"))
     RB = InferenceRule([Formula.parse("(p&q)")], Formula.parse("(q&p)"))
     lines = [
@@ -847,9 +805,7 @@ def test_inline_proof_once(debug=False):
     assert inlined_proof.rules == proof.rules.union(lem_proof.rules)
     newuse = uses_of_rule(inlined_proof, RB)
     olduse = uses_of_rule(proof, RB)
-    assert newuse == olduse - 1, (
-        "Uses of rule went from " + str(olduse) + " to " + str(newuse)
-    )
+    assert newuse == olduse - 1, "Uses of rule went from " + str(olduse) + " to " + str(newuse)
     assert inlined_proof.is_valid(), offending_line(inlined_proof)
 
 
@@ -910,9 +866,9 @@ def test_inline_proof(debug=False):
     if debug:
         print("\nGot:", inlined_proof)
     assert inlined_proof.statement == proof.statement
-    assert inlined_proof.rules == proof.rules.union(lemma2_proof.rules) - {
-        lemma2_proof.statement
-    }, "Rule are: " + str(inlined_proof.rules)
+    assert inlined_proof.rules == proof.rules.union(lemma2_proof.rules) - {lemma2_proof.statement}, "Rule are: " + str(
+        inlined_proof.rules
+    )
     assert inlined_proof.is_valid(), offending_line(inlined_proof)
 
     if debug:
@@ -926,9 +882,9 @@ def test_inline_proof(debug=False):
     if debug:
         print("\nGot:", inlined_proof)
     assert inlined_proof.statement == proof.statement
-    assert inlined_proof.rules == (
-        proof.rules.union(lemma2_proof.rules) - {lemma2_proof.statement}
-    ).union(lemma1_proof.rules) - {lemma1_proof.statement}
+    assert inlined_proof.rules == (proof.rules.union(lemma2_proof.rules) - {lemma2_proof.statement}).union(
+        lemma1_proof.rules
+    ) - {lemma1_proof.statement}
     assert inlined_proof.is_valid(), offending_line(inlined_proof)
 
     # Test inlining lemma2_proof into (lemma1_proof into proof)
@@ -944,9 +900,7 @@ def test_inline_proof(debug=False):
     if debug:
         print("\nGot:", inlined_proof)
     assert inlined_proof.statement == proof.statement
-    assert inlined_proof.rules == proof.rules.union(lemma1_proof.rules) - {
-        lemma1_proof.statement
-    }
+    assert inlined_proof.rules == proof.rules.union(lemma1_proof.rules) - {lemma1_proof.statement}
     assert inlined_proof.is_valid(), offending_line(inlined_proof)
 
     if debug:
@@ -960,9 +914,9 @@ def test_inline_proof(debug=False):
     if debug:
         print("\nGot:", inlined_proof)
     assert inlined_proof.statement == proof.statement
-    assert inlined_proof.rules == (
-        proof.rules.union(lemma1_proof.rules) - {lemma1_proof.statement}
-    ).union(lemma2_proof.rules) - {lemma2_proof.statement}
+    assert inlined_proof.rules == (proof.rules.union(lemma1_proof.rules) - {lemma1_proof.statement}).union(
+        lemma2_proof.rules
+    ) - {lemma2_proof.statement}
     assert inlined_proof.is_valid(), offending_line(inlined_proof)
 
     # Test inlining (lemma1_proof into lemma2_proof) into
@@ -981,9 +935,7 @@ def test_inline_proof(debug=False):
     if debug:
         print("\nGot:", inlined_lemma)
     assert inlined_lemma.statement == lemma2_proof.statement
-    assert inlined_lemma.rules == lemma1_proof.rules.union(lemma2_proof.rules) - {
-        lemma1_proof.statement
-    }
+    assert inlined_lemma.rules == lemma1_proof.rules.union(lemma2_proof.rules) - {lemma1_proof.statement}
     assert inlined_lemma.is_valid(), offending_line(inlined_lemma)
 
     if debug:
@@ -997,9 +949,7 @@ def test_inline_proof(debug=False):
     if debug:
         print("\nGot:", inlined_proof)
     assert inlined_proof.statement == proof.statement
-    assert inlined_proof.rules == inlined_lemma.rules.union(inlined_proof.rules) - {
-        lemma2_proof.statement
-    }
+    assert inlined_proof.rules == inlined_lemma.rules.union(inlined_proof.rules) - {lemma2_proof.statement}
     assert inlined_proof.is_valid(), offending_line(inlined_proof)
 
 

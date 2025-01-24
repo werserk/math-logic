@@ -81,9 +81,7 @@ def test_truth_values(debug=False):
     ]:
         formula = Formula.parse(infix)
         if debug:
-            print(
-                "Testing the evaluation of", formula, "on all models over its variables"
-            )
+            print("Testing the evaluation of", formula, "on all models over its variables")
         tvals = list(truth_values(formula, tuple(all_models(tuple(variables)))))
         assert tvals == values, "Expected " + str(values) + "; got " + str(tvals)
 
@@ -126,9 +124,7 @@ def test_print_truth_table(debug=False):
         "| T | T | T | T          |\n"
     )
 
-    __test_print_truth_table(
-        [infix1, infix2, infix3, infix4], [table1, table2, table3, table4], debug
-    )
+    __test_print_truth_table([infix1, infix2, infix3, infix4], [table1, table2, table3, table4], debug)
 
 
 def __test_print_truth_table(infixes, tables, debug):
@@ -266,15 +262,11 @@ def __test_synthesize_clause(clause_synthesizer, for_model, debug):
             f = clause_synthesizer(frozendict(all_models[idx]))
             assert type(f) is Formula, "Expected a formula, got " + str(f)
             if for_model:
-                assert is_conjunctive_clause(f), (
-                    str(f) + " should be a conjunctive clause"
-                )
+                assert is_conjunctive_clause(f), str(f) + " should be a conjunctive clause"
                 all_values = [False] * len(all_models)
                 all_values[idx] = True
             else:
-                assert is_disjunctive_clause(f), (
-                    str(f) + " should be a disjunctive clause"
-                )
+                assert is_disjunctive_clause(f), str(f) + " should be a disjunctive clause"
                 all_values = [True] * len(all_models)
                 all_values[idx] = False
             for model, value in zip(all_models, all_values):
@@ -284,21 +276,13 @@ def __test_synthesize_clause(clause_synthesizer, for_model, debug):
 def is_conjunctive_clause(f):
     if is_variable(f.root) or (f.root == "~" and is_variable(f.first.root)):
         return True
-    return (
-        f.root == "&"
-        and is_conjunctive_clause(f.first)
-        and is_conjunctive_clause(f.second)
-    )
+    return f.root == "&" and is_conjunctive_clause(f.first) and is_conjunctive_clause(f.second)
 
 
 def is_disjunctive_clause(f):
     if is_variable(f.root) or (f.root == "~" and is_variable(f.first.root)):
         return True
-    return (
-        f.root == "|"
-        and is_disjunctive_clause(f.first)
-        and is_disjunctive_clause(f.second)
-    )
+    return f.root == "|" and is_disjunctive_clause(f.first) and is_disjunctive_clause(f.second)
 
 
 def test_synthesize(debug=False):
@@ -368,24 +352,16 @@ def __test_synthesize(synthesizer, dnf, debug):
             assert formula.variables().issubset(set(all_variables))
             for model, value in zip(all_models, all_values):
                 assert evaluate(formula, frozendict(model)) == value, (
-                    str(formula)
-                    + " does not evaluate to "
-                    + str(value)
-                    + " on "
-                    + str(model)
+                    str(formula) + " does not evaluate to " + str(value) + " on " + str(model)
                 )
 
 
 def is_dnf(formula):
-    return is_conjunctive_clause(formula) or (
-        formula.root == "|" and is_dnf(formula.first) and is_dnf(formula.second)
-    )
+    return is_conjunctive_clause(formula) or (formula.root == "|" and is_dnf(formula.first) and is_dnf(formula.second))
 
 
 def is_cnf(formula):
-    return is_disjunctive_clause(formula) or (
-        formula.root == "&" and is_cnf(formula.first) and is_cnf(formula.second)
-    )
+    return is_disjunctive_clause(formula) or (formula.root == "&" and is_cnf(formula.first) and is_cnf(formula.second))
 
 
 def test_evaluate_all_operators(debug=False):
@@ -442,32 +418,22 @@ def test_evaluate_inference(debug=False):
     for model in all_models(["p", "q", "r"]):
         if debug:
             print("Testing evaluation of inference rule", rule1, "in model", model)
-        assert (
-            evaluate_inference(rule1, frozendict(model)) == (not model["p"])
-            or (not model["q"])
-            or model["r"]
-        )
+        assert evaluate_inference(rule1, frozendict(model)) == (not model["p"]) or (not model["q"]) or model["r"]
 
     # Test 2
     rule2 = InferenceRule([Formula.parse("(x|y)")], Formula.parse("x"))
     for model in all_models(["x", "y"]):
         if debug:
             print("Testing evaluation of inference rule", rule2, "in model", model)
-        assert (
-            evaluate_inference(rule2, frozendict(model)) == (not model["y"])
-            or model["x"]
-        )
+        assert evaluate_inference(rule2, frozendict(model)) == (not model["y"]) or model["x"]
 
     # Test 3
-    rule3 = InferenceRule(
-        [Formula.parse(s) for s in ["(p->q)", "(q->r)"]], Formula.parse("r")
-    )
+    rule3 = InferenceRule([Formula.parse(s) for s in ["(p->q)", "(q->r)"]], Formula.parse("r"))
     for model in all_models(["p", "q", "r"]):
         if debug:
             print("Testing evaluation of inference rule", rule3, "in model", model)
         assert (
-            evaluate_inference(rule3, frozendict(model))
-            == (model["p"] and not model["q"])
+            evaluate_inference(rule3, frozendict(model)) == (model["p"] and not model["q"])
             or (model["q"] and not model["r"])
             or model["r"]
         )

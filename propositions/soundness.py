@@ -33,9 +33,7 @@ def rule_nonsoundness_from_specialization_nonsoundness(
     # Task 4.9
 
 
-def nonsound_rule_of_nonsound_proof(
-    proof: Proof, model: Model
-) -> Tuple[InferenceRule, Model]:
+def nonsound_rule_of_nonsound_proof(proof: Proof, model: Model) -> Tuple[InferenceRule, Model]:
     """Finds a non-sound inference rule used by the given valid proof of a
     non-sound inference rule, and demonstrates the non-soundness of the former
     rule.

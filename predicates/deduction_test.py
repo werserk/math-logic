@@ -32,14 +32,9 @@ def test_remove_assumption(debug=False):
     test_prove_group_unique_zero()
     proof = prove_group_unique_zero()
     if debug:
-        print(
-            "Testing remove_assumption with assumption 'plus(a,c)=a' for the "
-            "following proof:\n" + str(proof)
-        )
+        print("Testing remove_assumption with assumption 'plus(a,c)=a' for the " "following proof:\n" + str(proof))
     result = remove_assumption(proof, Formula.parse("plus(a,c)=a"), debug)
-    assert result.assumptions == Prover.AXIOMS.union(
-        {Schema(Formula.parse(a)) for a in GROUP_AXIOMS}
-    )
+    assert result.assumptions == Prover.AXIOMS.union({Schema(Formula.parse(a)) for a in GROUP_AXIOMS})
     assert str(result.conclusion) == "(plus(a,c)=a->c=0)"
     assert result.is_valid()
 
@@ -119,9 +114,7 @@ def test_remove_assumption(debug=False):
             )
         result2 = remove_assumption(result1, assumption2)
         assert result2.assumptions == Prover.AXIOMS
-        assert result2.conclusion == Formula(
-            "->", assumption2, Formula("->", assumption1, proof.conclusion)
-        )
+        assert result2.conclusion == Formula("->", assumption2, Formula("->", assumption1, proof.conclusion))
         assert result2.is_valid()
 
 
@@ -146,13 +139,10 @@ def test_prove_by_way_of_contradiction(debug=False):
 
     if debug:
         print(
-            "Testing prove_by_way_of_contradiction with assumption 'Ax[x=c]' "
-            "for the following proof:\n" + str(proof)
+            "Testing prove_by_way_of_contradiction with assumption 'Ax[x=c]' " "for the following proof:\n" + str(proof)
         )
     result = prove_by_way_of_contradiction(proof, Formula.parse("Ax[x=c]"))
-    assert result.assumptions == Prover.AXIOMS.union(
-        {Schema(Formula.parse("Ax[~x=c]"))}
-    )
+    assert result.assumptions == Prover.AXIOMS.union({Schema(Formula.parse("Ax[~x=c]"))})
     assert str(result.conclusion) == "~Ax[x=c]"
     assert result.is_valid()
 
@@ -167,10 +157,7 @@ def test_prove_by_way_of_contradiction(debug=False):
     assert COMPREHENSION_AXIOM in proof.assumptions
     new_lines = []
     for line in proof.lines:
-        if (
-            isinstance(line, Proof.AssumptionLine)
-            and line.assumption == COMPREHENSION_AXIOM
-        ):
+        if isinstance(line, Proof.AssumptionLine) and line.assumption == COMPREHENSION_AXIOM:
             assert line.formula == assumption, (
                 "Unexpected instance of COMPREHENSION_AXIOM found in proof"
                 " of Russell's Paradox. Cannot test "
@@ -179,9 +166,7 @@ def test_prove_by_way_of_contradiction(debug=False):
             new_lines.append(Proof.AssumptionLine(assumption, Schema(assumption), {}))
         else:
             new_lines.append(line)
-    new_assumptions = proof.assumptions.union({Schema(assumption)}) - {
-        COMPREHENSION_AXIOM
-    }
+    new_assumptions = proof.assumptions.union({Schema(assumption)}) - {COMPREHENSION_AXIOM}
     new_proof = Proof(new_assumptions, proof.conclusion, new_lines)
     assert new_proof.is_valid()
 
@@ -194,9 +179,7 @@ def test_prove_by_way_of_contradiction(debug=False):
         )
     result = prove_by_way_of_contradiction(new_proof, assumption)
     assert result.assumptions == Prover.AXIOMS
-    assert (
-        str(result.conclusion) == "~Ey[Ax[((In(x,y)->~In(x,x))&(~In(x,x)->In(x,y)))]]"
-    )
+    assert str(result.conclusion) == "~Ey[Ax[((In(x,y)->~In(x,x))&(~In(x,x)->In(x,y)))]]"
     assert result.is_valid()
 
 

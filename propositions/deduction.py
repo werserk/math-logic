@@ -11,9 +11,7 @@ from propositions.proofs import *
 from propositions.axiomatic_systems import *
 
 
-def prove_corollary(
-    antecedent_proof: Proof, consequent: Formula, conditional: InferenceRule
-) -> Proof:
+def prove_corollary(antecedent_proof: Proof, consequent: Formula, conditional: InferenceRule) -> Proof:
     """Converts the given proof of a formula `antecedent` to a proof of the
     given formula `consequent` by using the given assumptionless inference rule
     of which ``'(``\ `antecedent`\ ``->``\ `consequent`\ ``)'`` is a
@@ -33,9 +31,9 @@ def prove_corollary(
         `~propositions.axiomatic_systems.MP` and `conditional`.
     """
     assert antecedent_proof.is_valid()
-    assert InferenceRule(
-        [], Formula("->", antecedent_proof.statement.conclusion, consequent)
-    ).is_specialization_of(conditional)
+    assert InferenceRule([], Formula("->", antecedent_proof.statement.conclusion, consequent)).is_specialization_of(
+        conditional
+    )
     # Task 5.3a
 
 
@@ -68,10 +66,7 @@ def combine_proofs(
     """
     assert antecedent1_proof.is_valid()
     assert antecedent2_proof.is_valid()
-    assert (
-        antecedent1_proof.statement.assumptions
-        == antecedent2_proof.statement.assumptions
-    )
+    assert antecedent1_proof.statement.assumptions == antecedent2_proof.statement.assumptions
     assert antecedent1_proof.rules == antecedent2_proof.rules
     assert InferenceRule(
         [],
@@ -111,9 +106,7 @@ def remove_assumption(proof: Proof) -> Proof:
     # Task 5.4
 
 
-def prove_from_opposites(
-    proof_of_affirmation: Proof, proof_of_negation: Proof, conclusion: Formula
-) -> Proof:
+def prove_from_opposites(proof_of_affirmation: Proof, proof_of_negation: Proof, conclusion: Formula) -> Proof:
     """Combines the given proofs of a formula `affirmation` and its negation
     ``'~``\ `affirmation`\ ``'`` into a proof of the given formula.
 
@@ -131,14 +124,8 @@ def prove_from_opposites(
     """
     assert proof_of_affirmation.is_valid()
     assert proof_of_negation.is_valid()
-    assert (
-        proof_of_affirmation.statement.assumptions
-        == proof_of_negation.statement.assumptions
-    )
-    assert (
-        Formula("~", proof_of_affirmation.statement.conclusion)
-        == proof_of_negation.statement.conclusion
-    )
+    assert proof_of_affirmation.statement.assumptions == proof_of_negation.statement.assumptions
+    assert Formula("~", proof_of_affirmation.statement.conclusion) == proof_of_negation.statement.conclusion
     assert proof_of_affirmation.rules == proof_of_negation.rules
     # Task 5.6
 

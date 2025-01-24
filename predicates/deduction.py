@@ -11,9 +11,7 @@ from predicates.proofs import *
 from predicates.prover import *
 
 
-def remove_assumption(
-    proof: Proof, assumption: Formula, print_as_proof_forms: bool = False
-) -> Proof:
+def remove_assumption(proof: Proof, assumption: Formula, print_as_proof_forms: bool = False) -> Proof:
     """Converts the given proof of some `conclusion` formula, an assumption of
     which is `assumption`, to a proof of
     ``'(``\ `assumption`\ ``->``\ `conclusion`\ ``)'`` from the same assumptions

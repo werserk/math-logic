@@ -66,10 +66,7 @@ def replace_functions_with_relations_in_model(model: Model[T]) -> Model[T]:
         ``(``\ `x2`\ ``,``...\ ``,``\ `xn`\ ``)``.
     """
     for function in model.function_interpretations:
-        assert (
-            function_name_to_relation_name(function)
-            not in model.relation_interpretations
-        )
+        assert function_name_to_relation_name(function) not in model.relation_interpretations
     # Task 8.1
 
 
@@ -96,9 +93,7 @@ def replace_relations_with_functions_in_model(
     for function in original_functions:
         assert is_function(function)
         assert function not in model.function_interpretations
-        assert (
-            function_name_to_relation_name(function) in model.relation_interpretations
-        )
+        assert function_name_to_relation_name(function) in model.relation_interpretations
     # Task 8.2
 
 
@@ -148,10 +143,9 @@ def replace_functions_with_relations_in_formula(formula: Formula) -> Formula:
     """
     assert (
         len(
-            {
-                function_name_to_relation_name(function)
-                for function, arity in formula.functions()
-            }.intersection({relation for relation, arity in formula.relations()})
+            {function_name_to_relation_name(function) for function, arity in formula.functions()}.intersection(
+                {relation for relation, arity in formula.relations()}
+            )
         )
         == 0
     )
@@ -196,20 +190,10 @@ def replace_functions_with_relations_in_formulas(
         len(
             set.union(
                 *[
-                    {
-                        function_name_to_relation_name(function)
-                        for function, arity in formula.functions()
-                    }
+                    {function_name_to_relation_name(function) for function, arity in formula.functions()}
                     for formula in formulas
                 ]
-            ).intersection(
-                set.union(
-                    *[
-                        {relation for relation, arity in formula.relations()}
-                        for formula in formulas
-                    ]
-                )
-            )
+            ).intersection(set.union(*[{relation for relation, arity in formula.relations()} for formula in formulas]))
         )
         == 0
     )
@@ -287,8 +271,6 @@ def make_equality_as_SAME_in_model(model: Model[T]) -> Model[T]:
         the returned model corresponds to the equivalence classes of the
         interpretation of ``'SAME'`` in the given model.
     """
-    assert (
-        "SAME" in model.relation_interpretations and model.relation_arities["SAME"] == 2
-    )
+    assert "SAME" in model.relation_interpretations and model.relation_arities["SAME"] == 2
     assert len(model.function_interpretations) == 0
     # Task 8.8

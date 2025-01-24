@@ -45,14 +45,10 @@ def test_to_not_and_or(debug=False):
         print()
     for f in many_fs:
         if debug:
-            print(
-                "Testing conversion of", f, "to a formula using only '&', '|' and '~'."
-            )
+            print("Testing conversion of", f, "to a formula using only '&', '|' and '~'.")
         f = Formula.parse(f)
         ff = to_not_and_or(f)
-        assert ff.operators().issubset({"&", "~", "|"}), (
-            str(ff) + " contains wrong operators"
-        )
+        assert ff.operators().issubset({"&", "~", "|"}), str(ff) + " contains wrong operators"
         assert is_tautology(Formula("<->", f, ff))
 
 
@@ -64,9 +60,7 @@ def test_to_not_and(debug=False):
             print("Testing conversion of", f, "to a formula using only '&' and '~'.")
         f = Formula.parse(f)
         ff = to_not_and(f)
-        assert ff.operators().issubset({"&", "~"}), (
-            str(ff) + " contains wrong operators"
-        )
+        assert ff.operators().issubset({"&", "~"}), str(ff) + " contains wrong operators"
         assert is_tautology(Formula("<->", f, ff))
 
 
@@ -90,9 +84,7 @@ def test_to_implies_not(debug=False):
             print("Testing conversion of", f, "to a formula using only '->' and '~'.")
         f = Formula.parse(f)
         ff = to_implies_not(f)
-        assert ff.operators().issubset({"->", "~"}), (
-            str(ff) + " contains wrong operators"
-        )
+        assert ff.operators().issubset({"->", "~"}), str(ff) + " contains wrong operators"
         assert is_tautology(Formula("<->", f, ff))
 
 
@@ -104,9 +96,7 @@ def test_to_implies_false(debug=False):
             print("Testing conversion of", f, "to a formula using only '->' and 'F'.")
         f = Formula.parse(f)
         ff = to_implies_false(f)
-        assert ff.operators().issubset({"->", "F"}), (
-            str(ff) + " contains wrong operators"
-        )
+        assert ff.operators().issubset({"->", "F"}), str(ff) + " contains wrong operators"
         assert is_tautology(Formula("<->", f, ff))
 
 

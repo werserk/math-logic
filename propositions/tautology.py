@@ -82,9 +82,7 @@ def prove_in_model(formula: Formula, model: Model) -> Proof:
     # Task 6.1b
 
 
-def reduce_assumption(
-    proof_from_affirmation: Proof, proof_from_negation: Proof
-) -> Proof:
+def reduce_assumption(proof_from_affirmation: Proof, proof_from_negation: Proof) -> Proof:
     """Combines the two given proofs, both of the same formula `conclusion` and
     from the same assumptions except that the last assumption of the latter is
     the negation of that of the former, into a single proof of `conclusion` from
@@ -116,19 +114,12 @@ def reduce_assumption(
     """
     assert proof_from_affirmation.is_valid()
     assert proof_from_negation.is_valid()
-    assert (
-        proof_from_affirmation.statement.conclusion
-        == proof_from_negation.statement.conclusion
-    )
+    assert proof_from_affirmation.statement.conclusion == proof_from_negation.statement.conclusion
     assert len(proof_from_affirmation.statement.assumptions) > 0
     assert len(proof_from_negation.statement.assumptions) > 0
+    assert proof_from_affirmation.statement.assumptions[:-1] == proof_from_negation.statement.assumptions[:-1]
     assert (
-        proof_from_affirmation.statement.assumptions[:-1]
-        == proof_from_negation.statement.assumptions[:-1]
-    )
-    assert (
-        Formula("~", proof_from_affirmation.statement.assumptions[-1])
-        == proof_from_negation.statement.assumptions[-1]
+        Formula("~", proof_from_affirmation.statement.assumptions[-1]) == proof_from_negation.statement.assumptions[-1]
     )
     assert proof_from_affirmation.rules == proof_from_negation.rules
     # Task 6.2

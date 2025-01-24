@@ -197,9 +197,7 @@ def test_formula_repr(debug=False):
         print("Testing representation of the formula", s)
     formula = Formula(
         "->",
-        Formula(
-            "A", "x", Formula("=", [Term("plus", [Term("x"), Term("y")]), Term("0")])
-        ),
+        Formula("A", "x", Formula("=", [Term("plus", [Term("x"), Term("y")]), Term("0")])),
         Formula("~", Formula("R", [Term("v"), Term("c7")])),
     )
     assert str(formula) == s
@@ -495,13 +493,9 @@ def test_from_propositional_skeleton(debug=False):
             {"z8": Formula.parse("R(0)"), "z9": Formula.parse("R(1)")},
         ],
     ]:
-        formula = Formula.from_propositional_skeleton(
-            PropositionalFormula.parse(skeleton), substitution_map
-        )
+        formula = Formula.from_propositional_skeleton(PropositionalFormula.parse(skeleton), substitution_map)
         if debug:
-            print(
-                "Substituting", substitution_map, "into", skeleton, "returned", formula
-            )
+            print("Substituting", substitution_map, "into", skeleton, "returned", formula)
         assert str(formula) == expected
 
 

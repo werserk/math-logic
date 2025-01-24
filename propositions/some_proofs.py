@@ -47,9 +47,7 @@ def prove_I0() -> Proof:
 
 
 #: Hypothetical syllogism
-HS = InferenceRule(
-    [Formula.parse("(p->q)"), Formula.parse("(q->r)")], Formula.parse("(p->r)")
-)
+HS = InferenceRule([Formula.parse("(p->q)"), Formula.parse("(q->r)")], Formula.parse("(p->r)"))
 
 
 def prove_hypothetical_syllogism() -> Proof:

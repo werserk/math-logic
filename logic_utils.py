@@ -33,26 +33,14 @@ def frozen(cls: Type[T]) -> Type[T]:
         if id(self) in mutable_ids:
             original_setattr(self, name, value)
         else:
-            raise Exception(
-                "Cannot assign to field '"
-                + name
-                + "' of immutable class '"
-                + cls.__name__
-                + "'"
-            )
+            raise Exception("Cannot assign to field '" + name + "' of immutable class '" + cls.__name__ + "'")
 
     @wraps(cls.__delattr__)
     def delattr_wrapper(self, name, value):
         if id(self) in mutable_ids:
             original_delattr(self, name, value)
         else:
-            raise Exception(
-                "Cannot delete field '"
-                + name
-                + "' of immutable class '"
-                + cls.__name__
-                + "'"
-            )
+            raise Exception("Cannot delete field '" + name + "' of immutable class '" + cls.__name__ + "'")
 
     @wraps(cls.__init__)
     def init_wrapper(self, *args, **kwargs):
@@ -75,9 +63,9 @@ class frozendict(Dict[Any, Any]):
     def update(self, *args, **kwargs):
         raise Exception("Cannot modify a frozendict")
 
-    __delattr__ = __delitem__ = __setattr__ = __setitem__ = clear = pop = popitem = (
-        setdefault
-    ) = cast(Callable[..., Any], update)
+    __delattr__ = __delitem__ = __setattr__ = __setitem__ = clear = pop = popitem = setdefault = cast(
+        Callable[..., Any], update
+    )
 
 
 S = TypeVar("S")
@@ -137,17 +125,13 @@ class __prefix_with_index_sequence_generator:
 #: `next`\ ``(``\ `fresh_variable_name_generator`\ ``)`` will return ``'z1'``,
 #: the second call to `next`\ ``(``\ `fresh_variable_name_generator`\ ``)`` will
 #: return ``'z2'``, and so on.
-fresh_variable_name_generator: Iterator[str] = __prefix_with_index_sequence_generator(
-    "z"
-)
+fresh_variable_name_generator: Iterator[str] = __prefix_with_index_sequence_generator("z")
 
 #: A generator for fresh constant names. The first call to
 #: `next`\ ``(``\ `fresh_constant_name_generator`\ ``)`` will return ``'e1'``,
 #: the second call to `next`\ ``(``\ `fresh_constant_name_generator`\ ``)`` will
 #: return ``'e2'``, and so on.
-fresh_constant_name_generator: Iterator[str] = __prefix_with_index_sequence_generator(
-    "e"
-)
+fresh_constant_name_generator: Iterator[str] = __prefix_with_index_sequence_generator("e")
 
 
 @lru_cache(maxsize=100)  # Cache the return value of is_z_and_number

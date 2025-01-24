@@ -130,9 +130,7 @@ def test_combine_proofs(debug=False):
         assert pnpiq.is_valid(), offending_line(pnpiq)
 
 
-R1 = InferenceRule(
-    [Formula.parse("(p|q)"), Formula.parse("(~p|r)")], Formula.parse("(q|r)")
-)
+R1 = InferenceRule([Formula.parse("(p|q)"), Formula.parse("(~p|r)")], Formula.parse("(q|r)"))
 R2 = InferenceRule([], Formula.parse("(~p|p)"))
 
 DISJUNCTION_COMMUTATIVITY_PROOF = Proof(
@@ -269,9 +267,7 @@ def test_remove_assumption(debug=False):
         if debug:
             print("Got:", pp)
         assert pp.statement.assumptions == p.statement.assumptions[:-1]
-        assert pp.statement.conclusion == Formula(
-            "->", p.statement.assumptions[-1], p.statement.conclusion
-        )
+        assert pp.statement.conclusion == Formula("->", p.statement.assumptions[-1], p.statement.conclusion)
         assert pp.rules.issubset(p.rules.union({MP, I0, I1, D}))
         assert pp.is_valid(), offending_line(pp)
 

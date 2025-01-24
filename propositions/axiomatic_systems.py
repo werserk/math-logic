@@ -68,9 +68,7 @@ NF = InferenceRule([], Formula.parse("~F"))
 #: Large axiomatic system for all operators, consisting of the rules in
 #: `AXIOMATIC_SYSTEM`, as well as `A`, `NA1`, `NA2`, `O1`, `O2`, `NO`, `T`, and
 #: `NF`.
-AXIOMATIC_SYSTEM_FULL = frozenset(
-    AXIOMATIC_SYSTEM.union({A, NA1, NA2, O1, O2, NO, T, NF})
-)
+AXIOMATIC_SYSTEM_FULL = frozenset(AXIOMATIC_SYSTEM.union({A, NA1, NA2, O1, O2, NO, T, NF}))
 
 # Alternative for N
 
@@ -93,6 +91,4 @@ OE = InferenceRule([], Formula.parse("((p->r)->((q->r)->((p|q)->r)))"))
 #: Hilbert axiomatic system for all operators, consisting of the rules in
 #: `HILBERT_AXIOMATIC_SYSTEM`, as well as `A`, `AE1`, `AE2`, `O1`, `O2`, `OE`,
 #: `T`, and `NF`.
-HILBERT_AXIOMATIC_SYSTEM_FULL = frozenset(
-    HILBERT_AXIOMATIC_SYSTEM.union({A, AE1, AE2, O1, O2, OE, T, NF})
-)
+HILBERT_AXIOMATIC_SYSTEM_FULL = frozenset(HILBERT_AXIOMATIC_SYSTEM.union({A, AE1, AE2, O1, O2, OE, T, NF}))

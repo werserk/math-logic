@@ -56,11 +56,7 @@ def is_constant(string: str) -> bool:
         ``True`` if the given string is a constant name, ``False`` otherwise.
     """
     return (
-        (
-            (string[0] >= "0" and string[0] <= "9")
-            or (string[0] >= "a" and string[0] <= "e")
-        )
-        and string.isalnum()
+        ((string[0] >= "0" and string[0] <= "9") or (string[0] >= "a" and string[0] <= "e")) and string.isalnum()
     ) or string == "_"
 
 
@@ -374,9 +370,9 @@ class Formula:
         """
         if is_equality(root) or is_relation(root):
             # Populate self.root and self.arguments
-            assert isinstance(
-                arguments_or_first_or_variable, Sequence
-            ) and not isinstance(arguments_or_first_or_variable, str)
+            assert isinstance(arguments_or_first_or_variable, Sequence) and not isinstance(
+                arguments_or_first_or_variable, str
+            )
             if is_equality(root):
                 assert len(arguments_or_first_or_variable) == 2
             assert second_or_statement is None
@@ -398,9 +394,7 @@ class Formula:
         else:
             assert is_quantifier(root)
             # Populate self.variable and self.statement
-            assert isinstance(arguments_or_first_or_variable, str) and is_variable(
-                arguments_or_first_or_variable
-            )
+            assert isinstance(arguments_or_first_or_variable, str) and is_variable(arguments_or_first_or_variable)
             assert second_or_statement is not None
             self.root, self.variable, self.statement = (
                 root,
@@ -598,9 +592,7 @@ class Formula:
         # Task 9.8
 
     @staticmethod
-    def from_propositional_skeleton(
-        skeleton: PropositionalFormula, substitution_map: Mapping[str, Formula]
-    ) -> Formula:
+    def from_propositional_skeleton(skeleton: PropositionalFormula, substitution_map: Mapping[str, Formula]) -> Formula:
         """Computes a predicate-logic formula from a propositional skeleton and
         a substitution map.
 

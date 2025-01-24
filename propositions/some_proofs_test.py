@@ -86,9 +86,7 @@ def __test_prove_inference(prover, rule, rules, debug):
         print("Testing", prover.__qualname__)
     proof = prover()
     assert proof.statement == rule
-    assert proof.rules.issubset(rules), (
-        "got " + str(proof.rules) + ", expected " + str(rules)
-    )
+    assert proof.rules.issubset(rules), "got " + str(proof.rules) + ", expected " + str(rules)
     assert proof.is_valid(), offending_line(proof)
 
 

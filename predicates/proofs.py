@@ -49,15 +49,9 @@ class Schema:
                 formula to serve as templates.
         """
         for template in templates:
-            assert (
-                is_constant(template) or is_variable(template) or is_relation(template)
-            )
+            assert is_constant(template) or is_variable(template) or is_relation(template)
             if is_relation(template):
-                arities = {
-                    arity
-                    for relation, arity in formula.relations()
-                    if relation == template
-                }
+                arities = {arity for relation, arity in formula.relations() if relation == template}
                 assert arities == {0} or arities == {1}
         self.formula = formula
         self.templates = frozenset(templates)
@@ -72,11 +66,7 @@ class Schema:
             "Schema: "
             + str(self.formula)
             + " [templates: "
-            + (
-                "none"
-                if len(self.templates) == 0
-                else ", ".join(sorted(self.templates))
-            )
+            + ("none" if len(self.templates) == 0 else ", ".join(sorted(self.templates)))
             + "]"
         )
 
@@ -90,11 +80,7 @@ class Schema:
             ``True`` if the given object is a `Schema` object that equals the
             current schema, ``False`` otherwise.
         """
-        return (
-            isinstance(other, Schema)
-            and self.formula == other.formula
-            and self.templates == other.templates
-        )
+        return isinstance(other, Schema) and self.formula == other.formula and self.templates == other.templates
 
     def __ne__(self, other: object) -> bool:
         """Compares the current schema with the given one.
@@ -251,9 +237,7 @@ class Schema:
         for construct in constants_and_variables_instantiation_map:
             assert is_constant(construct) or is_variable(construct)
             if is_variable(construct):
-                assert is_variable(
-                    constants_and_variables_instantiation_map[construct].root
-                )
+                assert is_variable(constants_and_variables_instantiation_map[construct].root)
         for relation in relations_instantiation_map:
             assert is_relation(relation)
         for variable in bound_variables:
@@ -608,12 +592,7 @@ class Proof:
             Returns:
                 A string representation of the current line.
             """
-            return (
-                str(self.formula)
-                + "    (UG of line "
-                + str(self.nonquantified_line_number)
-                + ")"
-            )
+            return str(self.formula) + "    (UG of line " + str(self.nonquantified_line_number) + ")"
 
         def is_valid(
             self,
@@ -717,9 +696,7 @@ class Proof:
         if len(self.lines) == 0 or self.lines[-1].formula != self.conclusion:
             return False
         for line_number in range(len(self.lines)):
-            if not self.lines[line_number].is_valid(
-                self.assumptions, self.lines, line_number
-            ):
+            if not self.lines[line_number].is_valid(self.assumptions, self.lines, line_number):
                 return False
         return True
 
@@ -754,9 +731,7 @@ I0_SCHEMA = Schema(Formula.parse("(P()->P())"), {"P"})
 I1_SCHEMA = Schema(Formula.parse("(Q()->(P()->Q()))"), {"P", "Q"})
 #: Schema equivalent of the propositional-logic self-distribution of implication
 #: axiom `~propositions.axiomatic_systems.D`.
-D_SCHEMA = Schema(
-    Formula.parse("((P()->(Q()->R()))->((P()->Q())->(P()->R())))"), {"P", "Q", "R"}
-)
+D_SCHEMA = Schema(Formula.parse("((P()->(Q()->R()))->((P()->Q())->(P()->R())))"), {"P", "Q", "R"})
 #: Schema equivalent of the propositional-logic implication introduction (left)
 #: axiom `~propositions.axiomatic_systems.I2`.
 I2_SCHEMA = Schema(Formula.parse("(~P()->(P()->Q()))"), {"P", "Q"})
@@ -874,12 +849,7 @@ def _prove_from_skeleton_proof(
         and skeleton_proof.rules.issubset(PROPOSITIONAL_AXIOMATIC_SYSTEM)
         and skeleton_proof.is_valid()
     )
-    assert (
-        Formula.from_propositional_skeleton(
-            skeleton_proof.statement.conclusion, substitution_map
-        )
-        == formula
-    )
+    assert Formula.from_propositional_skeleton(skeleton_proof.statement.conclusion, substitution_map) == formula
     for line in skeleton_proof.lines:
         for operator in line.formula.operators():
             assert is_unary(operator) or is_binary(operator)

@@ -13,9 +13,7 @@ from propositions.soundness import *
 
 def test_rule_nonsoundness_from_specialization_nonsoundness(debug=False):
     # Test rule with a small number of variables
-    general = InferenceRule(
-        [Formula.parse("p"), Formula.parse("q")], Formula.parse("(p&r)")
-    )
+    general = InferenceRule([Formula.parse("p"), Formula.parse("q")], Formula.parse("(p&r)"))
     specialization = InferenceRule(
         [Formula.parse("(x&~y)"), Formula.parse("~w")],
         Formula.parse("((x&~y)&~(p->z))"),
@@ -24,8 +22,7 @@ def test_rule_nonsoundness_from_specialization_nonsoundness(debug=False):
 
     if debug:
         print(
-            "Testing rule_nonsoundness_from_specialization_nonsoundness given"
-            " the specialization",
+            "Testing rule_nonsoundness_from_specialization_nonsoundness given" " the specialization",
             specialization,
             "of the rule ",
             general,
@@ -35,9 +32,7 @@ def test_rule_nonsoundness_from_specialization_nonsoundness(debug=False):
         )
     assert not evaluate_inference(
         general,
-        rule_nonsoundness_from_specialization_nonsoundness(
-            general, specialization, model
-        ),
+        rule_nonsoundness_from_specialization_nonsoundness(general, specialization, model),
     )
 
     # Test assumptionless rule with a large number of variables
@@ -99,8 +94,7 @@ def test_rule_nonsoundness_from_specialization_nonsoundness(debug=False):
 
     if debug:
         print(
-            "Testing rule_nonsoundness_from_specialization_nonsoundness given"
-            " the specialization",
+            "Testing rule_nonsoundness_from_specialization_nonsoundness given" " the specialization",
             specialization,
             "of the rule ",
             general,
@@ -110,18 +104,14 @@ def test_rule_nonsoundness_from_specialization_nonsoundness(debug=False):
         )
     assert not evaluate_inference(
         general,
-        rule_nonsoundness_from_specialization_nonsoundness(
-            general, specialization, model
-        ),
+        rule_nonsoundness_from_specialization_nonsoundness(general, specialization, model),
     )
 
 
 def test_nonsound_rule_of_nonsound_proof(debug=False):
     # Test with short "readable" proof
     R1 = InferenceRule([Formula.parse("p")], Formula.parse("(p|q)"))
-    R2 = InferenceRule(
-        [Formula.parse("(p|q)"), Formula.parse("q")], Formula.parse("~p")
-    )
+    R2 = InferenceRule([Formula.parse("(p|q)"), Formula.parse("q")], Formula.parse("~p"))
     R3 = InferenceRule([Formula.parse("p"), Formula.parse("q")], Formula.parse("(p&q)"))
     proof = Proof(
         InferenceRule(
@@ -138,13 +128,8 @@ def test_nonsound_rule_of_nonsound_proof(debug=False):
         ],
     )
     if debug:
-        print(
-            "\nTesting nonsound_rule_of_nonsound_proof on the following "
-            "deductive proof:\n" + str(proof)
-        )
-    rule, model = nonsound_rule_of_nonsound_proof(
-        proof, frozendict({"w": False, "z": False})
-    )
+        print("\nTesting nonsound_rule_of_nonsound_proof on the following " "deductive proof:\n" + str(proof))
+    rule, model = nonsound_rule_of_nonsound_proof(proof, frozendict({"w": False, "z": False}))
     assert rule in proof.rules
     assert not evaluate_inference(rule, model)
 
@@ -224,10 +209,7 @@ def test_nonsound_rule_of_nonsound_proof(debug=False):
         ],
     )
     if debug:
-        print(
-            "\nTesting nonsound_rule_of_nonsound_proof on the following "
-            "deductive proof:\n" + str(proof)
-        )
+        print("\nTesting nonsound_rule_of_nonsound_proof on the following " "deductive proof:\n" + str(proof))
     rule, model = nonsound_rule_of_nonsound_proof(
         proof,
         frozendict(

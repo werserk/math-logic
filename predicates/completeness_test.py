@@ -51,8 +51,7 @@ def _test_is_closed(
                 "Testing is_closed for the six-element",
                 (
                     "noncommutative"
-                    if six_element_group_primitives
-                    == SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES
+                    if six_element_group_primitives == SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES
                     else "commutative"
                 ),
                 "group...",
@@ -63,15 +62,11 @@ def _test_is_closed(
 
         if debug:
             print("Testing on primitives + zero axiom")
-        _test_closures(
-            six_element_group_primitives.union({ZERO_AXIOM}), True, True, True
-        )
+        _test_closures(six_element_group_primitives.union({ZERO_AXIOM}), True, True, True)
         if debug:
             print("Testing on primitives + zero axiom + commutativity")
         _test_closures(
-            six_element_group_primitives.union(
-                {ZERO_AXIOM, COMMUTATIVITY_AXIOM}, SIX_ELEMENT_COMMUTATIVITY_CLOSURE
-            ),
+            six_element_group_primitives.union({ZERO_AXIOM, COMMUTATIVITY_AXIOM}, SIX_ELEMENT_COMMUTATIVITY_CLOSURE),
             True,
             True,
             True,
@@ -87,9 +82,7 @@ def _test_is_closed(
         if debug:
             print("Testing on primitives + negation")
         _test_closures(
-            six_element_group_primitives.union(
-                {NEGATION_AXIOM}, SIX_ELEMENT_NEGATION_CLOSURE
-            ),
+            six_element_group_primitives.union({NEGATION_AXIOM}, SIX_ELEMENT_NEGATION_CLOSURE),
             True,
             True,
             True,
@@ -97,9 +90,7 @@ def _test_is_closed(
         if debug:
             print("Testing on primitives + noncommutativity closure")
         _test_closures(
-            six_element_group_primitives.union(
-                SIX_ELEMENT_NONCOMMUTATIVE_GROUP_NONCOMMUTATIVITY_CLOSURE
-            ),
+            six_element_group_primitives.union(SIX_ELEMENT_NONCOMMUTATIVE_GROUP_NONCOMMUTATIVITY_CLOSURE),
             True,
             True,
             True,
@@ -116,10 +107,7 @@ def _test_is_closed(
             True,
         )
         if debug:
-            print(
-                "Testing on primitives + zero axiom + negation + "
-                "commutativity + noncommutativity"
-            )
+            print("Testing on primitives + zero axiom + negation + " "commutativity + noncommutativity")
         _test_closures(
             six_element_group_primitives.union(
                 {ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM, NONCOMMUTATIVITY},
@@ -136,9 +124,7 @@ def _test_is_closed(
     if debug:
         print("Testing on closed but inconsistent set")
         _test_closures(
-            SIX_ELEMENT_COMMUTATIVE_GROUP_PRIMITIVES.union(
-                SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES
-            ),
+            SIX_ELEMENT_COMMUTATIVE_GROUP_PRIMITIVES.union(SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES),
             True,
             True,
             True,
@@ -154,8 +140,7 @@ def _test_is_closed(
                 "Testing is_closed for the six-element",
                 (
                     "noncommutative"
-                    if six_element_group_primitives
-                    == SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES
+                    if six_element_group_primitives == SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES
                     else "commutative"
                 ),
                 "group...",
@@ -187,8 +172,7 @@ def _test_is_closed(
         # 'Plus(2,3,5)' is in SIX_ELEMENT_COMMUTATIVE_GROUP_PRIMITIVES,
         # 'Plus(1,3,5)' is in SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES
         _test_closures(
-            six_element_group_primitives
-            - {Formula.parse("Plus(2,3,5)"), Formula.parse("Plus(1,3,5)")},
+            six_element_group_primitives - {Formula.parse("Plus(2,3,5)"), Formula.parse("Plus(1,3,5)")},
             False,
             True,
             True,
@@ -207,8 +191,7 @@ def _test_is_closed(
             six_element_group_primitives.union(
                 {ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM},
                 SIX_ELEMENT_NEGATION_CLOSURE,
-                SIX_ELEMENT_COMMUTATIVITY_CLOSURE
-                - {Formula.parse("Ay[Az[(Plus(z,2,y)->Plus(z,y,2))]]")},
+                SIX_ELEMENT_COMMUTATIVITY_CLOSURE - {Formula.parse("Ay[Az[(Plus(z,2,y)->Plus(z,y,2))]]")},
             ),
             True,
             False,
@@ -218,8 +201,7 @@ def _test_is_closed(
             six_element_group_primitives.union(
                 {ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM},
                 SIX_ELEMENT_NEGATION_CLOSURE,
-                SIX_ELEMENT_COMMUTATIVITY_CLOSURE
-                - {Formula.parse("Az[(Plus(z,5,4)->Plus(z,4,5))]")},
+                SIX_ELEMENT_COMMUTATIVITY_CLOSURE - {Formula.parse("Az[(Plus(z,5,4)->Plus(z,4,5))]")},
             ),
             True,
             False,
@@ -229,8 +211,7 @@ def _test_is_closed(
             six_element_group_primitives.union(
                 {ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM},
                 SIX_ELEMENT_NEGATION_CLOSURE,
-                SIX_ELEMENT_COMMUTATIVITY_CLOSURE
-                - {Formula.parse("(Plus(4,3,1)->Plus(4,1,3))")},
+                SIX_ELEMENT_COMMUTATIVITY_CLOSURE - {Formula.parse("(Plus(4,3,1)->Plus(4,1,3))")},
             ),
             True,
             False,
@@ -249,10 +230,7 @@ def _test_is_closed(
         if debug:
             print("Testing on closed except existentially")
         _test_closures(
-            (
-                six_element_group_primitives
-                - {Formula.parse("Plus(0,4,2)"), Formula.parse("Plus(0,4,5)")}
-            ).union(
+            (six_element_group_primitives - {Formula.parse("Plus(0,4,2)"), Formula.parse("Plus(0,4,5)")}).union(
                 {Formula.parse("~Plus(0,4,2)"), Formula.parse("~Plus(0,4,5)")},
                 SIX_ELEMENT_NEGATION_CLOSURE,
             ),
@@ -303,9 +281,7 @@ def test_find_unsatisfied_quantifier_free_sentence(debug=False):
         def __contains__(self, a):
             return self._contains(a)
 
-    assert SIX_ELEMENT_NONCOMMUTATIVE_GROUP_MODEL.is_model_of(
-        SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES
-    )
+    assert SIX_ELEMENT_NONCOMMUTATIVE_GROUP_MODEL.is_model_of(SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES)
     sentences = SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES.union(
         {COMMUTATIVITY_AXIOM}, SIX_ELEMENT_COMMUTATIVITY_CLOSURE
     )
@@ -324,9 +300,7 @@ def test_find_unsatisfied_quantifier_free_sentence(debug=False):
     assert quantifier_free in sentences
     assert not SIX_ELEMENT_NONCOMMUTATIVE_GROUP_MODEL.evaluate_formula(quantifier_free)
 
-    assert SIX_ELEMENT_COMMUTATIVE_GROUP_MODEL.is_model_of(
-        SIX_ELEMENT_COMMUTATIVE_GROUP_PRIMITIVES
-    )
+    assert SIX_ELEMENT_COMMUTATIVE_GROUP_MODEL.is_model_of(SIX_ELEMENT_COMMUTATIVE_GROUP_PRIMITIVES)
     sentences = SIX_ELEMENT_COMMUTATIVE_GROUP_PRIMITIVES.union(
         {NONCOMMUTATIVITY}, SIX_ELEMENT_NONCOMMUTATIVE_GROUP_NONCOMMUTATIVITY_CLOSURE
     )
@@ -354,9 +328,7 @@ def test_model_or_inconsistency(debug=False):
     ]:
         for commutativity in [
             {COMMUTATIVITY_AXIOM}.union(SIX_ELEMENT_COMMUTATIVITY_CLOSURE),
-            {NONCOMMUTATIVITY}.union(
-                SIX_ELEMENT_NONCOMMUTATIVE_GROUP_NONCOMMUTATIVITY_CLOSURE
-            ),
+            {NONCOMMUTATIVITY}.union(SIX_ELEMENT_NONCOMMUTATIVE_GROUP_NONCOMMUTATIVITY_CLOSURE),
         ]:
             sentences = six_element_group_primitives.union(
                 {ZERO_AXIOM, NEGATION_AXIOM},
@@ -368,16 +340,11 @@ def test_model_or_inconsistency(debug=False):
                     "Testing model_or_inconsistency for the six-element",
                     (
                         "noncommutative"
-                        if six_element_group_primitives
-                        == SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES
+                        if six_element_group_primitives == SIX_ELEMENT_NONCOMMUTATIVE_GROUP_PRIMITIVES
                         else "commutative"
                     ),
                     "group with the zero, negation, and ",
-                    (
-                        "commutativity"
-                        if COMMUTATIVITY_AXIOM in commutativity
-                        else "noncommutativity"
-                    ),
+                    ("commutativity" if COMMUTATIVITY_AXIOM in commutativity else "noncommutativity"),
                     "axioms",
                 )
             result = model_or_inconsistency(frozenset(sentences))
@@ -387,12 +354,8 @@ def test_model_or_inconsistency(debug=False):
                 assert result.is_model_of(sentences)
             else:
                 assert type(result) is Proof
-                assert set(result.assumptions).issubset(
-                    {Schema(s) for s in sentences}.union(Prover.AXIOMS)
-                )
-                assert is_tautology(
-                    Formula("~", result.conclusion).propositional_skeleton()[0]
-                )
+                assert set(result.assumptions).issubset({Schema(s) for s in sentences}.union(Prover.AXIOMS))
+                assert is_tautology(Formula("~", result.conclusion).propositional_skeleton()[0])
                 if debug:
                     print(
                         "Verifying returned proof (" + "{:,}".format(len(result.lines)),
@@ -411,9 +374,7 @@ def test_combine_contradictions(debug=False):
     }
 
     # Contradiction from 'Ex[~R(x)]' and 'Ax[(~R(x)->(Q()&~Q()))]'
-    prover_from_affirmation = Prover(
-        common_assumptions.union({"Ax[(~R(x)->(Q()&~Q()))]"})
-    )
+    prover_from_affirmation = Prover(common_assumptions.union({"Ax[(~R(x)->(Q()&~Q()))]"}))
     step1 = prover_from_affirmation.add_assumption("Ex[~R(x)]")
     step2 = prover_from_affirmation.add_assumption("Ax[(~R(x)->(Q()&~Q()))]")
     step3 = prover_from_affirmation.add_instantiated_assumption(
@@ -421,15 +382,11 @@ def test_combine_contradictions(debug=False):
         Prover.ES,
         {"R": "~R(_)", "Q": "(Q()&~Q())"},
     )
-    prover_from_affirmation.add_tautological_implication(
-        "(Q()&~Q())", {step1, step2, step3}
-    )
+    prover_from_affirmation.add_tautological_implication("(Q()&~Q())", {step1, step2, step3})
     proof_from_affirmation = prover_from_affirmation.qed()
 
     # Contradiction from 'Ax[R(x)]' and '~Ax[(~R(x)->(Q()&~Q()))]'
-    prover_from_negation = Prover(
-        common_assumptions.union({"~Ax[(~R(x)->(Q()&~Q()))]"})
-    )
+    prover_from_negation = Prover(common_assumptions.union({"~Ax[(~R(x)->(Q()&~Q()))]"}))
     step1 = prover_from_negation.add_assumption("Ax[R(x)]")
     step2 = prover_from_negation.add_assumption("~Ax[(~R(x)->(Q()&~Q()))]")
     step3 = prover_from_negation.add_instantiated_assumption(
@@ -437,19 +394,11 @@ def test_combine_contradictions(debug=False):
         schema,
         {"R": "(~R(_)->(Q()&~Q()))"},
     )
-    step4 = prover_from_negation.add_tautological_implication(
-        "Ex[~(~R(x)->(Q()&~Q()))]", {step2, step3}
-    )
-    step5 = prover_from_negation.add_instantiated_assumption(
-        "(Ax[R(x)]->R(x))", Prover.UI, {"c": "x"}
-    )
-    step6 = prover_from_negation.add_tautological_implication(
-        "(~(~R(x)->(Q()&~Q()))->~Ax[R(x)])", {step5}
-    )
+    step4 = prover_from_negation.add_tautological_implication("Ex[~(~R(x)->(Q()&~Q()))]", {step2, step3})
+    step5 = prover_from_negation.add_instantiated_assumption("(Ax[R(x)]->R(x))", Prover.UI, {"c": "x"})
+    step6 = prover_from_negation.add_tautological_implication("(~(~R(x)->(Q()&~Q()))->~Ax[R(x)])", {step5})
     step7 = prover_from_negation.add_existential_derivation("~Ax[R(x)]", step4, step6)
-    step8 = prover_from_negation.add_tautological_implication(
-        "(Ax[R(x)]&~Ax[R(x)])", {step1, step7}
-    )
+    step8 = prover_from_negation.add_tautological_implication("(Ax[R(x)]&~Ax[R(x)])", {step1, step7})
     proof_from_negation = prover_from_negation.qed()
 
     if debug:
@@ -485,16 +434,11 @@ def test_eliminate_universal_instantiation_assumption(debug=False):
 
     if debug:
         print(
-            "Testing eliminate_universal_instantiation_assumption for the "
-            "following proof:\n",
+            "Testing eliminate_universal_instantiation_assumption for the " "following proof:\n",
             proof,
         )
-    eliminated = eliminate_universal_instantiation_assumption(
-        proof, Formula.parse("Ax[R(x)]"), "c"
-    )
-    assert eliminated.assumptions == Prover.AXIOMS.union(assumptions) - {
-        Schema(Formula.parse("R(c)"))
-    }
+    eliminated = eliminate_universal_instantiation_assumption(proof, Formula.parse("Ax[R(x)]"), "c")
+    assert eliminated.assumptions == Prover.AXIOMS.union(assumptions) - {Schema(Formula.parse("R(c)"))}
     assert is_tautology(Formula("~", eliminated.conclusion).propositional_skeleton()[0])
     if debug:
         print(
@@ -508,43 +452,26 @@ def test_eliminate_universal_instantiation_assumption(debug=False):
 def test_universal_closure_step(debug=False):
     if debug:
         print("Testing universal_closure_step on zero axiom with six " "elements...")
-    augmented = universal_closure_step(
-        frozenset({ZERO_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS))
-    )
-    assert augmented == {ZERO_AXIOM}.union(
-        SENTENCES_WITH_SIX_ELEMENTS, SIX_ELEMENT_ZERO_AXIOM_CLOSURE
-    )
+    augmented = universal_closure_step(frozenset({ZERO_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS)))
+    assert augmented == {ZERO_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS, SIX_ELEMENT_ZERO_AXIOM_CLOSURE)
     assert is_universally_closed(augmented)
     if debug:
         print("Testing universal_closure_step on result...")
     assert universal_closure_step(augmented) == augmented
 
     if debug:
-        print(
-            "Testing universal_closure_step on negation axiom with six " "elements..."
-        )
-    augmented = universal_closure_step(
-        frozenset({NEGATION_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS))
-    )
-    assert augmented == {NEGATION_AXIOM}.union(
-        SENTENCES_WITH_SIX_ELEMENTS, SIX_ELEMENT_NEGATION_CLOSURE
-    )
+        print("Testing universal_closure_step on negation axiom with six " "elements...")
+    augmented = universal_closure_step(frozenset({NEGATION_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS)))
+    assert augmented == {NEGATION_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS, SIX_ELEMENT_NEGATION_CLOSURE)
     assert is_universally_closed(augmented)
     if debug:
         print("Testing universal_closure_step on result...")
     assert universal_closure_step(augmented) == augmented
 
     if debug:
-        print(
-            "Testing universal_closure_step on commutativity axiom with six "
-            "elements..."
-        )
-    augmented = universal_closure_step(
-        frozenset({COMMUTATIVITY_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS))
-    )
-    assert augmented == {COMMUTATIVITY_AXIOM}.union(
-        SENTENCES_WITH_SIX_ELEMENTS, SIX_ELEMENT_COMMUTATIVITY_CLOSURE1
-    )
+        print("Testing universal_closure_step on commutativity axiom with six " "elements...")
+    augmented = universal_closure_step(frozenset({COMMUTATIVITY_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS)))
+    assert augmented == {COMMUTATIVITY_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS, SIX_ELEMENT_COMMUTATIVITY_CLOSURE1)
     assert not is_universally_closed(augmented)
     if debug:
         print("Testing universal_closure_step on result...")
@@ -570,22 +497,11 @@ def test_universal_closure_step(debug=False):
     assert universal_closure_step(augmented) == augmented
 
     if debug:
-        print(
-            "Testing universal_closure_step on zero axiom + negation + "
-            "commutativity with six elements..."
-        )
+        print("Testing universal_closure_step on zero axiom + negation + " "commutativity with six elements...")
     augmented = universal_closure_step(
-        frozenset(
-            {ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM}.union(
-                SENTENCES_WITH_SIX_ELEMENTS
-            )
-        )
+        frozenset({ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS))
     )
-    assert (
-        {ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM}
-        .union(SENTENCES_WITH_SIX_ELEMENTS)
-        .issubset(augmented)
-    )
+    assert {ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS).issubset(augmented)
     assert len(augmented) == 9 + 6 + 6 + 6
     assert not is_universally_closed(augmented)
     if debug:
@@ -604,10 +520,7 @@ def test_universal_closure_step(debug=False):
     assert universal_closure_step(augmented) == augmented
 
     if debug:
-        print(
-            "Testing universal_closure_step on zero axiom + negation + "
-            "commutativity with ten elements..."
-        )
+        print("Testing universal_closure_step on zero axiom + negation + " "commutativity with ten elements...")
     sentences_with_ten_elements = {
         Formula.parse(s)
         for s in {
@@ -624,17 +537,9 @@ def test_universal_closure_step(debug=False):
         }
     }
     augmented = universal_closure_step(
-        frozenset(
-            {ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM}.union(
-                sentences_with_ten_elements
-            )
-        )
+        frozenset({ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM}.union(sentences_with_ten_elements))
     )
-    assert (
-        {ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM}
-        .union(sentences_with_ten_elements)
-        .issubset(augmented)
-    )
+    assert {ZERO_AXIOM, NEGATION_AXIOM, COMMUTATIVITY_AXIOM}.union(sentences_with_ten_elements).issubset(augmented)
     assert len(augmented) == 13 + 10 + 10 + 10
     assert not is_universally_closed(augmented)
     if debug:
@@ -692,17 +597,9 @@ def test_universal_closure_step(debug=False):
     if debug:
         print("Testing universal_closure_step on group axioms with six " "elements...")
     augmented = universal_closure_step(
-        frozenset(
-            {ZERO_AXIOM, NEGATION_AXIOM, ASSOCIATIVITY_AXIOM}.union(
-                SENTENCES_WITH_SIX_ELEMENTS
-            )
-        )
+        frozenset({ZERO_AXIOM, NEGATION_AXIOM, ASSOCIATIVITY_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS))
     )
-    assert (
-        {ZERO_AXIOM, NEGATION_AXIOM, ASSOCIATIVITY_AXIOM}
-        .union(SENTENCES_WITH_SIX_ELEMENTS)
-        .issubset(augmented)
-    )
+    assert {ZERO_AXIOM, NEGATION_AXIOM, ASSOCIATIVITY_AXIOM}.union(SENTENCES_WITH_SIX_ELEMENTS).issubset(augmented)
     assert len(augmented) == 9 + 6 + 6 + 6
     assert not is_universally_closed(augmented)
     if debug:
@@ -723,25 +620,13 @@ def test_universal_closure_step(debug=False):
     if debug:
         print("Testing universal_closure_step on result...")
     augmented = universal_closure_step(augmented)
-    assert (
-        len(augmented)
-        == 9 + 6 + 6 + 6 + 6 * 6 + 6 * 6 * 6 + 6 * 6 * 6 * 6 + 6 * 6 * 6 * 6 * 6
-    )
+    assert len(augmented) == 9 + 6 + 6 + 6 + 6 * 6 + 6 * 6 * 6 + 6 * 6 * 6 * 6 + 6 * 6 * 6 * 6 * 6
     assert not is_universally_closed(augmented)
     if debug:
         print("Testing universal_closure_step on result...")
     augmented = universal_closure_step(augmented)
     assert (
-        len(augmented)
-        == 9
-        + 6
-        + 6
-        + 6
-        + 6 * 6
-        + 6 * 6 * 6
-        + 6 * 6 * 6 * 6
-        + 6 * 6 * 6 * 6 * 6
-        + 6 * 6 * 6 * 6 * 6 * 6
+        len(augmented) == 9 + 6 + 6 + 6 + 6 * 6 + 6 * 6 * 6 + 6 * 6 * 6 * 6 + 6 * 6 * 6 * 6 * 6 + 6 * 6 * 6 * 6 * 6 * 6
     )
     assert is_universally_closed(augmented)
     # if debug:
@@ -763,10 +648,7 @@ def test_replace_constant(debug=False):
 
     # Replace in assumptions formulas, constant instantiation maps, MP
     if debug:
-        print(
-            "Testing replace_constant for replacing aristotle with z in "
-            "syllogism proof"
-        )
+        print("Testing replace_constant for replacing aristotle with z in " "syllogism proof")
     for proof in [prove_syllogism(), prove_syllogism_with_universal_instantiation()]:
         replaced = replace_constant(proof, "aristotle", "z")
         assert replaced.assumptions == Prover.AXIOMS.union(
@@ -788,10 +670,7 @@ def test_replace_constant(debug=False):
     test_prove_group_unique_zero()
     proof = prove_group_unique_zero()
     if debug:
-        print(
-            "Testing replace_constant for replacing a with zz in "
-            "group unique-zero proof"
-        )
+        print("Testing replace_constant for replacing a with zz in " "group unique-zero proof")
     replaced = replace_constant(proof, "a")
     assert replaced.assumptions == Prover.AXIOMS.union(
         {Schema(Formula.parse(a)) for a in GROUP_AXIOMS},
@@ -816,24 +695,17 @@ def test_eliminate_existential_witness_assumption(debug=False):
     prover = Prover(assumptions)
     step1 = prover.add_assumption("R(c17)")
     step2 = prover.add_assumption("Ax[(R(x)->(Q(x)&~Q(x)))]")
-    step3 = prover.add_universal_instantiation(
-        "(R(c17)->(Q(c17)&~Q(c17)))", step2, "c17"
-    )
+    step3 = prover.add_universal_instantiation("(R(c17)->(Q(c17)&~Q(c17)))", step2, "c17")
     prover.add_tautological_implication("(Q(c17)&~Q(c17))", {step1, step3})
     proof = prover.qed()
 
     if debug:
         print(
-            "Testing eliminate_existential_witness_assumption for the "
-            "following proof:\n",
+            "Testing eliminate_existential_witness_assumption for the " "following proof:\n",
             proof,
         )
-    eliminated = eliminate_existential_witness_assumption(
-        proof, Formula.parse("Ex[R(x)]"), "c17"
-    )
-    assert eliminated.assumptions == Prover.AXIOMS.union(
-        assumptions - {Schema(Formula.parse("R(c17)"))}
-    )
+    eliminated = eliminate_existential_witness_assumption(proof, Formula.parse("Ex[R(x)]"), "c17")
+    assert eliminated.assumptions == Prover.AXIOMS.union(assumptions - {Schema(Formula.parse("R(c17)"))})
     assert is_tautology(Formula("~", eliminated.conclusion).propositional_skeleton()[0])
     if debug:
         print(
@@ -850,14 +722,9 @@ def test_existential_closure_step(debug=False):
     fresh_constant_name_generator._reset_for_test()
 
     if debug:
-        print(
-            "Testing existential_closure_step on negation axiom universal "
-            "closure with six elements..."
-        )
+        print("Testing existential_closure_step on negation axiom universal " "closure with six elements...")
     augmented = existential_closure_step(SIX_ELEMENT_NEGATION_CLOSURE)
-    assert get_constants(augmented) == SIX_ELEMENTS.union(
-        {"e1", "e2", "e3", "e4", "e5", "e6"}
-    )
+    assert get_constants(augmented) == SIX_ELEMENTS.union({"e1", "e2", "e3", "e4", "e5", "e6"})
     assert len(augmented) == 12
     assert SIX_ELEMENT_NEGATION_CLOSURE.issubset(augmented)
     witnessed = set()
@@ -870,19 +737,14 @@ def test_existential_closure_step(debug=False):
         witnessed.add(sentence.arguments[2])
         witnessing_constants.append(sentence.arguments[1])
     assert witnessed == {Term(c) for c in SIX_ELEMENTS}
-    assert set(witnessing_constants) == {
-        Term(c) for c in {"e1", "e2", "e3", "e4", "e5", "e6"}
-    }
+    assert set(witnessing_constants) == {Term(c) for c in {"e1", "e2", "e3", "e4", "e5", "e6"}}
     assert is_existentially_closed(augmented)
     if debug:
         print("Testing existential_closure_step on result...")
     assert existential_closure_step(augmented) == augmented
 
     if debug:
-        print(
-            "Testing existential_closure_step on noncommutativity axiom with "
-            "six elements..."
-        )
+        print("Testing existential_closure_step on noncommutativity axiom with " "six elements...")
     augmented1 = existential_closure_step(
         frozenset({ZERO_AXIOM, NEGATION_AXIOM, ASSOCIATIVITY_AXIOM, NONCOMMUTATIVITY})
     )

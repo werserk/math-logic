@@ -451,13 +451,9 @@ def test_add_SAME_as_equality_in_model(debug=False):
         print("... got", new_model)
     assert new_model.universe == model.universe
     assert new_model.constant_interpretations.keys() == {"a"}
-    assert (
-        new_model.constant_interpretations["a"] == model.constant_interpretations["a"]
-    )
+    assert new_model.constant_interpretations["a"] == model.constant_interpretations["a"]
     assert new_model.relation_interpretations.keys() == {"Q", "SAME"}
-    assert (
-        new_model.relation_interpretations["Q"] == model.relation_interpretations["Q"]
-    )
+    assert new_model.relation_interpretations["Q"] == model.relation_interpretations["Q"]
     assert new_model.relation_interpretations["SAME"] == {
         ("0", "0"),
         ("1", "1"),
@@ -482,14 +478,8 @@ def test_make_equality_as_SAME_in_model(debug=False):
         print("... got", new_model)
     assert len(new_model.universe) == 2
     assert new_model.constant_interpretations.keys() == {"a", "b", "c"}
-    assert (
-        new_model.constant_interpretations["b"]
-        == new_model.constant_interpretations["c"]
-    )
-    assert (
-        new_model.constant_interpretations["a"]
-        != new_model.constant_interpretations["b"]
-    )
+    assert new_model.constant_interpretations["b"] == new_model.constant_interpretations["c"]
+    assert new_model.constant_interpretations["a"] != new_model.constant_interpretations["b"]
     assert new_model.relation_interpretations.keys() == {"Q"}
     for x in new_model.universe:
         assert (x,) in new_model.relation_interpretations["Q"]

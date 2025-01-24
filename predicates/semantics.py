@@ -51,9 +51,7 @@ class Model(Generic[T]):
         universe: AbstractSet[T],
         constant_interpretations: Mapping[str, T],
         relation_interpretations: Mapping[str, AbstractSet[Tuple[T, ...]]],
-        function_interpretations: Mapping[
-            str, Mapping[Tuple[T, ...], T]
-        ] = frozendict(),
+        function_interpretations: Mapping[str, Mapping[Tuple[T, ...], T]] = frozendict(),
     ):
         """Initializes a `Model` from its universe and constant, relation, and
         function name interpretations.
@@ -108,17 +106,11 @@ class Model(Generic[T]):
         self.constant_interpretations = frozendict(constant_interpretations)
         self.relation_arities = frozendict(relation_arities)
         self.relation_interpretations = frozendict(
-            {
-                relation: frozenset(relation_interpretations[relation])
-                for relation in relation_interpretations
-            }
+            {relation: frozenset(relation_interpretations[relation]) for relation in relation_interpretations}
         )
         self.function_arities = frozendict(function_arities)
         self.function_interpretations = frozendict(
-            {
-                function: frozendict(function_interpretations[function])
-                for function in function_interpretations
-            }
+            {function: frozendict(function_interpretations[function]) for function in function_interpretations}
         )
 
     def __repr__(self) -> str:
@@ -141,9 +133,7 @@ class Model(Generic[T]):
             )
         )
 
-    def evaluate_term(
-        self, term: Term, assignment: Mapping[str, T] = frozendict()
-    ) -> T:
+    def evaluate_term(self, term: Term, assignment: Mapping[str, T] = frozendict()) -> T:
         """Calculates the value of the given term in the current model under the
         given assignment of values to variable names.
 
@@ -161,15 +151,10 @@ class Model(Generic[T]):
         assert term.constants().issubset(self.constant_interpretations.keys())
         assert term.variables().issubset(assignment.keys())
         for function, arity in term.functions():
-            assert (
-                function in self.function_interpretations
-                and self.function_arities[function] == arity
-            )
+            assert function in self.function_interpretations and self.function_arities[function] == arity
         # Task 7.7
 
-    def evaluate_formula(
-        self, formula: Formula, assignment: Mapping[str, T] = frozendict()
-    ) -> bool:
+    def evaluate_formula(self, formula: Formula, assignment: Mapping[str, T] = frozendict()) -> bool:
         """Calculates the truth value of the given formula in the current model
         under the given assignment of values to free occurrences of variable
         names.
@@ -189,14 +174,9 @@ class Model(Generic[T]):
         assert formula.constants().issubset(self.constant_interpretations.keys())
         assert formula.free_variables().issubset(assignment.keys())
         for function, arity in formula.functions():
-            assert (
-                function in self.function_interpretations
-                and self.function_arities[function] == arity
-            )
+            assert function in self.function_interpretations and self.function_arities[function] == arity
         for relation, arity in formula.relations():
-            assert relation in self.relation_interpretations and self.relation_arities[
-                relation
-            ] in {-1, arity}
+            assert relation in self.relation_interpretations and self.relation_arities[relation] in {-1, arity}
         # Task 7.8
 
     def is_model_of(self, formulas: AbstractSet[Formula]) -> bool:
@@ -215,13 +195,7 @@ class Model(Generic[T]):
         for formula in formulas:
             assert formula.constants().issubset(self.constant_interpretations.keys())
             for function, arity in formula.functions():
-                assert (
-                    function in self.function_interpretations
-                    and self.function_arities[function] == arity
-                )
+                assert function in self.function_interpretations and self.function_arities[function] == arity
             for relation, arity in formula.relations():
-                assert (
-                    relation in self.relation_interpretations
-                    and self.relation_arities[relation] in {-1, arity}
-                )
+                assert relation in self.relation_interpretations and self.relation_arities[relation] in {-1, arity}
         # Task 7.9

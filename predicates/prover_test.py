@@ -26,9 +26,7 @@ def test_add_universal_instantiation(debug=False):
     # With a different variable name
     prover = Prover({"Ay[(Man(y)->Mortal(y))]", "Man(aristotle)"}, debug)
     step1 = prover.add_assumption("Ay[(Man(y)->Mortal(y))]")
-    step2 = prover.add_universal_instantiation(
-        "(Man(aristotle)->Mortal(aristotle))", step1, "aristotle"
-    )
+    step2 = prover.add_universal_instantiation("(Man(aristotle)->Mortal(aristotle))", step1, "aristotle")
     step3 = prover.add_assumption("Man(aristotle)")
     step4 = prover.add_mp("Mortal(aristotle)", step3, step2)
     proof = prover.qed()
@@ -38,9 +36,7 @@ def test_add_universal_instantiation(debug=False):
     # With functions
     prover = Prover({"Ax[x=plus(0,x)]"}, debug)
     step1 = prover.add_assumption("Ax[x=plus(0,x)]")
-    step2 = prover.add_universal_instantiation(
-        "plus(x,0)=plus(0,plus(x,0))", step1, "plus(x,0)"
-    )
+    step2 = prover.add_universal_instantiation("plus(x,0)=plus(0,plus(x,0))", step1, "plus(x,0)")
     proof = prover.qed()
     assert str(proof.conclusion) == "plus(x,0)=plus(0,plus(x,0))"
     assert proof.is_valid()
@@ -73,9 +69,7 @@ def test_add_existential_derivation(debug=False):
     step4 = prover.add_instantiated_assumption(
         "(Mortal(y)->Ey[Mortal(y)])", Prover.EI, {"R": "Mortal(_)", "x": "y", "c": "y"}
     )
-    step5 = prover.add_tautological_implication(
-        "(Man(y)->Ey[Mortal(y)])", {step3, step4}
-    )
+    step5 = prover.add_tautological_implication("(Man(y)->Ey[Mortal(y)])", {step3, step4})
     step6 = prover.add_existential_derivation("Ey[Mortal(y)]", step2, step5)
     proof = prover.qed()
     assert str(proof.conclusion) == "Ey[Mortal(y)]"
@@ -112,8 +106,7 @@ def test_add_free_instantiation(debug=False):
     assert _contains_line_with_formula(proof, "0=plus(minus(minus(x)),minus(x))")
     assert _contains_line_with_formula(
         proof,
-        "plus(plus(minus(minus(x)),minus(x)),x)="
-        "plus(minus(minus(x)),plus(minus(x),x))",
+        "plus(plus(minus(minus(x)),minus(x)),x)=" "plus(minus(minus(x)),plus(minus(x),x))",
     )
     assert _contains_line_with_formula(proof, "plus(0,0)=0")
     assert _contains_line_with_formula(proof, "plus(x,0)=plus(0,plus(x,0))")
@@ -126,28 +119,18 @@ def test_add_substituted_equality(debug=False):
     assert str(proof.conclusion) == "plus(plus(minus(minus(x)),minus(x)),x)=plus(0,x)"
     assert proof.is_valid()
     # Verify that the critical conclusion were indeed derived
+    assert _contains_line_with_formula(proof, "plus(plus(0,x),0)=plus(plus(plus(minus(minus(x)),minus(x)),x),0)")
     assert _contains_line_with_formula(
-        proof, "plus(plus(0,x),0)=plus(plus(plus(minus(minus(x)),minus(x)),x),0)"
+        proof,
+        "plus(plus(plus(minus(minus(x)),minus(x)),x),0)=" "plus(plus(minus(minus(x)),plus(minus(x),x)),0)",
     )
     assert _contains_line_with_formula(
         proof,
-        "plus(plus(plus(minus(minus(x)),minus(x)),x),0)="
-        "plus(plus(minus(minus(x)),plus(minus(x),x)),0)",
+        "plus(plus(minus(minus(x)),plus(minus(x),x)),0)=" "plus(plus(minus(minus(x)),0),0)",
     )
-    assert _contains_line_with_formula(
-        proof,
-        "plus(plus(minus(minus(x)),plus(minus(x),x)),0)="
-        "plus(plus(minus(minus(x)),0),0)",
-    )
-    assert _contains_line_with_formula(
-        proof, "plus(minus(minus(x)),plus(0,0))=plus(minus(minus(x)),0)"
-    )
-    assert _contains_line_with_formula(
-        proof, "plus(minus(minus(x)),0)=plus(minus(minus(x)),plus(minus(x),x))"
-    )
-    assert _contains_line_with_formula(
-        proof, "plus(plus(minus(minus(x)),minus(x)),x)=plus(0,x)"
-    )
+    assert _contains_line_with_formula(proof, "plus(minus(minus(x)),plus(0,0))=plus(minus(minus(x)),0)")
+    assert _contains_line_with_formula(proof, "plus(minus(minus(x)),0)=plus(minus(minus(x)),plus(minus(x),x))")
+    assert _contains_line_with_formula(proof, "plus(plus(minus(minus(x)),minus(x)),x)=plus(0,x)")
 
 
 def test_add_chained_equality(debug=False):

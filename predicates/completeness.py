@@ -44,14 +44,8 @@ def is_closed(sentences: AbstractSet[Formula]) -> bool:
         existentially closed; ``False`` otherwise.
     """
     for sentence in sentences:
-        assert (
-            is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
-        )
-    return (
-        is_primitively_closed(sentences)
-        and is_universally_closed(sentences)
-        and is_existentially_closed(sentences)
-    )
+        assert is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
+    return is_primitively_closed(sentences) and is_universally_closed(sentences) and is_existentially_closed(sentences)
 
 
 def is_primitively_closed(sentences: AbstractSet[Formula]) -> bool:
@@ -69,9 +63,7 @@ def is_primitively_closed(sentences: AbstractSet[Formula]) -> bool:
         is one of the given sentences; ``False`` otherwise.
     """
     for sentence in sentences:
-        assert (
-            is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
-        )
+        assert is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
     # Task 12.1a
 
 
@@ -90,9 +82,7 @@ def is_universally_closed(sentences: AbstractSet[Formula]) -> bool:
         is also in the given set; ``False`` otherwise.
     """
     for sentence in sentences:
-        assert (
-            is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
-        )
+        assert is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
     # Task 12.1b
 
 
@@ -111,9 +101,7 @@ def is_existentially_closed(sentences: AbstractSet[Formula]) -> bool:
         name, is also in the given set; ``False`` otherwise.
     """
     for sentence in sentences:
-        assert (
-            is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
-        )
+        assert is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
     # Task 12.1c
 
 
@@ -200,9 +188,7 @@ def model_or_inconsistency(sentences: AbstractSet[Formula]) -> Union[Model[str],
     # Task 12.3b
 
 
-def combine_contradictions(
-    proof_from_affirmation: Proof, proof_from_negation: Proof
-) -> Proof:
+def combine_contradictions(proof_from_affirmation: Proof, proof_from_negation: Proof) -> Proof:
     """Combines the given two proofs of contradictions, both from the same
     assumptions/axioms except that the latter has an extra assumption that is
     the negation of an extra assumption that the former has, into a single proof
@@ -223,30 +209,22 @@ def combine_contradictions(
     """
     assert proof_from_affirmation.is_valid()
     assert proof_from_negation.is_valid()
-    common_assumptions = proof_from_affirmation.assumptions.intersection(
-        proof_from_negation.assumptions
-    )
+    common_assumptions = proof_from_affirmation.assumptions.intersection(proof_from_negation.assumptions)
     assert len(common_assumptions) == len(proof_from_affirmation.assumptions) - 1
     assert len(common_assumptions) == len(proof_from_negation.assumptions) - 1
-    affirmed_assumption = list(proof_from_affirmation.assumptions - common_assumptions)[
-        0
-    ]
+    affirmed_assumption = list(proof_from_affirmation.assumptions - common_assumptions)[0]
     negated_assumption = list(proof_from_negation.assumptions - common_assumptions)[0]
     assert len(affirmed_assumption.templates) == 0
     assert len(negated_assumption.templates) == 0
     assert negated_assumption.formula == Formula("~", affirmed_assumption.formula)
     assert proof_from_affirmation.assumptions.issuperset(Prover.AXIOMS)
     assert proof_from_negation.assumptions.issuperset(Prover.AXIOMS)
-    for assumption in common_assumptions.union(
-        {affirmed_assumption, negated_assumption}
-    ):
+    for assumption in common_assumptions.union({affirmed_assumption, negated_assumption}):
         assert len(assumption.formula.free_variables()) == 0
     # Task 12.4
 
 
-def eliminate_universal_instantiation_assumption(
-    proof: Proof, universal: Formula, constant: str
-) -> Proof:
+def eliminate_universal_instantiation_assumption(proof: Proof, universal: Formula, constant: str) -> Proof:
     """Converts the given proof of a contradiction, whose assumptions/axioms
     include `universal` and `instantiation`, where the latter is the universal
     instantiation of the former with the constant name `constant`, to a proof
@@ -270,10 +248,7 @@ def eliminate_universal_instantiation_assumption(
     assert Schema(universal) in proof.assumptions
     assert universal.root == "A"
     assert is_constant(constant)
-    assert (
-        Schema(universal.statement.substitute({universal.variable: Term(constant)}))
-        in proof.assumptions
-    )
+    assert Schema(universal.statement.substitute({universal.variable: Term(constant)})) in proof.assumptions
     for assumption in proof.assumptions:
         assert len(assumption.formula.free_variables()) == 0
     # Task 12.5
@@ -296,9 +271,7 @@ def universal_closure_step(sentences: AbstractSet[Formula]) -> Set[Formula]:
         from the given sentences.
     """
     for sentence in sentences:
-        assert (
-            is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
-        )
+        assert is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
     # Task 12.6
 
 
@@ -329,9 +302,7 @@ def replace_constant(proof: Proof, constant: str, variable: str = "zz") -> Proof
     # Task 12.7a
 
 
-def eliminate_existential_witness_assumption(
-    proof: Proof, existential: Formula, constant: str
-) -> Proof:
+def eliminate_existential_witness_assumption(proof: Proof, existential: Formula, constant: str) -> Proof:
     """Converts the given proof of a contradiction, whose assumptions/axioms
     include `existential` and `witness`, where the latter is the existential
     witness of the former with the witnessing constant name `constant`, to a
@@ -389,7 +360,5 @@ def existential_closure_step(sentences: AbstractSet[Formula]) -> Set[Formula]:
         `next`\ ``(``\ `~logic_utils.fresh_constant_name_generator`\ ``)``.
     """
     for sentence in sentences:
-        assert (
-            is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
-        )
+        assert is_in_prenex_normal_form(sentence) and len(sentence.free_variables()) == 0
     # Task 12.8

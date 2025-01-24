@@ -23,11 +23,7 @@ def is_variable(string: str) -> bool:
     Returns:
         ``True`` if the given string is a variable name, ``False`` otherwise.
     """
-    return (
-        string[0] >= "p"
-        and string[0] <= "z"
-        and (len(string) == 1 or string[1:].isdecimal())
-    )
+    return string[0] >= "p" and string[0] <= "z" and (len(string) == 1 or string[1:].isdecimal())
 
 
 @lru_cache(maxsize=100)  # Cache the return value of is_constant

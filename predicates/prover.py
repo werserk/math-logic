@@ -82,11 +82,7 @@ class Prover:
                 (
                     assumption
                     if isinstance(assumption, Schema)
-                    else (
-                        Schema(assumption)
-                        if isinstance(assumption, Formula)
-                        else Schema(Formula.parse(assumption))
-                    )
+                    else (Schema(assumption) if isinstance(assumption, Formula) else Schema(Formula.parse(assumption)))
                 )
                 for assumption in assumptions
             }
@@ -172,9 +168,7 @@ class Prover:
                     instantiation_map[key] = Formula.parse(value)
                 else:
                     assert isinstance(value, Formula)
-        return self._add_line(
-            Proof.AssumptionLine(instance, assumption, instantiation_map)
-        )
+        return self._add_line(Proof.AssumptionLine(instance, assumption, instantiation_map))
 
     def add_assumption(self, unique_instance: Union[Formula, str]) -> int:
         """Appends to the proof being created by the current prover a line that
@@ -192,9 +186,7 @@ class Prover:
         """
         if isinstance(unique_instance, str):
             unique_instance = Formula.parse(unique_instance)
-        return self.add_instantiated_assumption(
-            unique_instance, Schema(unique_instance), {}
-        )
+        return self.add_instantiated_assumption(unique_instance, Schema(unique_instance), {})
 
     def add_tautology(self, tautology: Union[Formula, str]) -> int:
         """Appends to the proof being created by the current prover a line that
@@ -236,13 +228,9 @@ class Prover:
         """
         if isinstance(consequent, str):
             consequent = Formula.parse(consequent)
-        return self._add_line(
-            Proof.MPLine(consequent, antecedent_line_number, conditional_line_number)
-        )
+        return self._add_line(Proof.MPLine(consequent, antecedent_line_number, conditional_line_number))
 
-    def add_ug(
-        self, quantified: Union[Formula, str], nonquantified_line_number: int
-    ) -> int:
+    def add_ug(self, quantified: Union[Formula, str], nonquantified_line_number: int) -> int:
         """Appends to the proof being created by the current prover a line that
         validly justifies the given universally quantified formula, the
         statement quantified by which is the specified already existing line of
@@ -335,14 +323,10 @@ class Prover:
         assert quantified.root == "A"
         if isinstance(term, str):
             term = Term.parse(term)
-        assert instantiation == quantified.statement.substitute(
-            {quantified.variable: term}
-        )
+        assert instantiation == quantified.statement.substitute({quantified.variable: term})
         # Task 10.1
 
-    def add_tautological_implication(
-        self, implication: Union[Formula, str], line_numbers: AbstractSet[int]
-    ) -> int:
+    def add_tautological_implication(self, implication: Union[Formula, str], line_numbers: AbstractSet[int]) -> int:
         """Appends to the proof being created by the current prover a sequence
         of validly justified lines, the last of which validly justifies the
         given formula, which is a tautological implication of the formulas in
@@ -364,9 +348,7 @@ class Prover:
             assert line_number < len(self._lines)
         # Task 10.2
 
-    def add_existential_derivation(
-        self, consequent: Union[Formula, str], line_number1: int, line_number2: int
-    ) -> int:
+    def add_existential_derivation(self, consequent: Union[Formula, str], line_number1: int, line_number2: int) -> int:
         """Appends to the proof being created by the current prover a sequence
         of validly justified lines, the last of which validly justifies the
         given formula, which is the consequent of the formula in the second
@@ -400,9 +382,7 @@ class Prover:
         assert conditional == Formula("->", quantified.statement, consequent)
         # Task 10.3
 
-    def add_flipped_equality(
-        self, flipped: Union[Formula, str], line_number: int
-    ) -> int:
+    def add_flipped_equality(self, flipped: Union[Formula, str], line_number: int) -> int:
         """Appends to the proof being created by the current prover a sequence
         of validly justified lines, the last of which validly justifies the
         given equality, which is the result of exchanging the two sides of the
@@ -531,9 +511,7 @@ class Prover:
         )
         # Task 10.8
 
-    def _add_chaining_of_two_equalities(
-        self, line_number1: int, line_number2: int
-    ) -> int:
+    def _add_chaining_of_two_equalities(self, line_number1: int, line_number2: int) -> int:
         """Appends to the proof being created by the current prover a sequence
         of validly justified lines, the last of which validly justifies an
         equality that is the result of chaining together the two equalities in
@@ -564,9 +542,7 @@ class Prover:
         assert equality1.arguments[1] == equality2.arguments[0]
         # Task 10.9a
 
-    def add_chained_equality(
-        self, chained: Union[Formula, str], line_numbers: Sequence[int]
-    ) -> int:
+    def add_chained_equality(self, chained: Union[Formula, str], line_numbers: Sequence[int]) -> int:
         """Appends to the proof being created by the current prover a sequence
         of validly justified lines, the last of which validly justifies the
         given equality, which is the result of chaining together the equalities

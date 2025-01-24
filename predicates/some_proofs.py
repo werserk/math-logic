@@ -64,9 +64,7 @@ def prove_syllogism_with_universal_instantiation(
     """
     prover = Prover({"Ax[(Man(x)->Mortal(x))]", "Man(aristotle)"}, print_as_proof_forms)
     step1 = prover.add_assumption("Ax[(Man(x)->Mortal(x))]")
-    step2 = prover.add_universal_instantiation(
-        "(Man(aristotle)->Mortal(aristotle))", step1, "aristotle"
-    )
+    step2 = prover.add_universal_instantiation("(Man(aristotle)->Mortal(aristotle))", step1, "aristotle")
     step3 = prover.add_assumption("Man(aristotle)")
     step4 = prover.add_mp("Mortal(aristotle)", step3, step2)
     return prover.qed()
@@ -88,19 +86,13 @@ def prove_syllogism_all_all(print_as_proof_forms: bool = False) -> Proof:
         A valid proof of the above inference via
         `~predicates.prover.Prover.AXIOMS`.
     """
-    prover = Prover(
-        {"Ax[(Greek(x)->Human(x))]", "Ax[(Human(x)->Mortal(x))]"}, print_as_proof_forms
-    )
+    prover = Prover({"Ax[(Greek(x)->Human(x))]", "Ax[(Human(x)->Mortal(x))]"}, print_as_proof_forms)
     step1 = prover.add_assumption("Ax[(Greek(x)->Human(x))]")
     step2 = prover.add_universal_instantiation("(Greek(x)->Human(x))", step1, "x")
     step3 = prover.add_assumption("Ax[(Human(x)->Mortal(x))]")
     step4 = prover.add_universal_instantiation("(Human(x)->Mortal(x))", step3, "x")
-    step5 = prover.add_tautology(
-        "((Greek(x)->Human(x))->((Human(x)->Mortal(x))->(Greek(x)->Mortal(x))))"
-    )
-    step6 = prover.add_mp(
-        "((Human(x)->Mortal(x))->(Greek(x)->Mortal(x)))", step2, step5
-    )
+    step5 = prover.add_tautology("((Greek(x)->Human(x))->((Human(x)->Mortal(x))->(Greek(x)->Mortal(x))))")
+    step6 = prover.add_mp("((Human(x)->Mortal(x))->(Greek(x)->Mortal(x)))", step2, step5)
     step7 = prover.add_mp("(Greek(x)->Mortal(x))", step4, step6)
     step8 = prover.add_ug("Ax[(Greek(x)->Mortal(x))]", step7)
     return prover.qed()
@@ -127,9 +119,7 @@ def prove_syllogism_all_all_with_tautological_implication(
         `~predicates.prover.Prover.add_tautological_implication`, of the above
         inference via `~predicates.prover.Prover.AXIOMS`.
     """
-    prover = Prover(
-        {"Ax[(Greek(x)->Human(x))]", "Ax[(Human(x)->Mortal(x))]"}, print_as_proof_forms
-    )
+    prover = Prover({"Ax[(Greek(x)->Human(x))]", "Ax[(Human(x)->Mortal(x))]"}, print_as_proof_forms)
     step1 = prover.add_assumption("Ax[(Greek(x)->Human(x))]")
     step2 = prover.add_universal_instantiation("(Greek(x)->Human(x))", step1, "x")
     step3 = prover.add_assumption("Ax[(Human(x)->Mortal(x))]")
@@ -159,12 +149,8 @@ def prove_syllogism_all_exists(print_as_proof_forms: bool = False) -> Proof:
     step1 = prover.add_assumption("Ax[(Man(x)->Mortal(x))]")
     step2 = prover.add_assumption("Ex[Man(x)]")
     step3 = prover.add_universal_instantiation("(Man(x)->Mortal(x))", step1, "x")
-    step4 = prover.add_instantiated_assumption(
-        "(Mortal(x)->Ex[Mortal(x)])", Prover.EI, {"R": "Mortal(_)", "c": "x"}
-    )
-    step5 = prover.add_tautological_implication(
-        "(Man(x)->Ex[Mortal(x)])", {step3, step4}
-    )
+    step4 = prover.add_instantiated_assumption("(Mortal(x)->Ex[Mortal(x)])", Prover.EI, {"R": "Mortal(_)", "c": "x"})
+    step5 = prover.add_tautological_implication("(Man(x)->Ex[Mortal(x)])", {step3, step4})
     step6 = prover.add_ug("Ax[(Man(x)->Ex[Mortal(x)])]", step5)
     step7 = prover.add_instantiated_assumption(
         "((Ax[(Man(x)->Ex[Mortal(x)])]&Ex[Man(x)])->Ex[Mortal(x)])",
@@ -199,12 +185,8 @@ def prove_syllogism_all_exists_with_existential_derivation(
     step1 = prover.add_assumption("Ax[(Man(x)->Mortal(x))]")
     step2 = prover.add_assumption("Ex[Man(x)]")
     step3 = prover.add_universal_instantiation("(Man(x)->Mortal(x))", step1, "x")
-    step4 = prover.add_instantiated_assumption(
-        "(Mortal(x)->Ex[Mortal(x)])", Prover.EI, {"R": "Mortal(_)", "c": "x"}
-    )
-    step5 = prover.add_tautological_implication(
-        "(Man(x)->Ex[Mortal(x)])", {step3, step4}
-    )
+    step4 = prover.add_instantiated_assumption("(Mortal(x)->Ex[Mortal(x)])", Prover.EI, {"R": "Mortal(_)", "c": "x"})
+    step5 = prover.add_tautological_implication("(Man(x)->Ex[Mortal(x)])", {step3, step4})
     step6 = prover.add_existential_derivation("Ex[Mortal(x)]", step2, step5)
     return prover.qed()
 
@@ -258,9 +240,7 @@ def prove_homework(print_as_proof_forms: bool = False) -> Proof:
 
 
 #: The three group axioms
-GROUP_AXIOMS = frozenset(
-    {"plus(0,x)=x", "plus(minus(x),x)=0", "plus(plus(x,y),z)=plus(x,plus(y,z))"}
-)
+GROUP_AXIOMS = frozenset({"plus(0,x)=x", "plus(minus(x),x)=0", "plus(plus(x,y),z)=plus(x,plus(y,z))"})
 
 
 def prove_group_right_neutral(
@@ -304,25 +284,18 @@ def prove_group_right_neutral(
         return prover.qed()
     flipped_zero = prover.add_flipped_equality("x=plus(0,x)", zero)
     flipped_negation = prover.add_flipped_equality("0=plus(minus(x),x)", negation)
-    flipped_associativity = prover.add_flipped_equality(
-        "plus(x,plus(y,z))=plus(plus(x,y),z)", associativity
-    )
+    flipped_associativity = prover.add_flipped_equality("plus(x,plus(y,z))=plus(plus(x,y),z)", associativity)
     if stop_before_free_instantiation:
         return prover.qed()
-    step7 = prover.add_free_instantiation(
-        "0=plus(minus(minus(x)),minus(x))", flipped_negation, {"x": "minus(x)"}
-    )
+    step7 = prover.add_free_instantiation("0=plus(minus(minus(x)),minus(x))", flipped_negation, {"x": "minus(x)"})
     step8 = prover.add_flipped_equality("plus(minus(minus(x)),minus(x))=0", step7)
     step9 = prover.add_free_instantiation(
-        "plus(plus(minus(minus(x)),minus(x)),x)="
-        "plus(minus(minus(x)),plus(minus(x),x))",
+        "plus(plus(minus(minus(x)),minus(x)),x)=" "plus(minus(minus(x)),plus(minus(x),x))",
         associativity,
         {"x": "minus(minus(x))", "y": "minus(x)", "z": "x"},
     )
     step10 = prover.add_free_instantiation("plus(0,0)=0", zero, {"x": "0"})
-    step11 = prover.add_free_instantiation(
-        "plus(x,0)=plus(0,plus(x,0))", flipped_zero, {"x": "plus(x,0)"}
-    )
+    step11 = prover.add_free_instantiation("plus(x,0)=plus(0,plus(x,0))", flipped_zero, {"x": "plus(x,0)"})
     step12 = prover.add_free_instantiation(
         "plus(0,plus(x,0))=plus(plus(0,x),0)",
         flipped_associativity,
@@ -336,14 +309,12 @@ def prove_group_right_neutral(
         "plus(plus(_,x),0)",
     )
     step14 = prover.add_substituted_equality(
-        "plus(plus(plus(minus(minus(x)),minus(x)),x),0)="
-        "plus(plus(minus(minus(x)),plus(minus(x),x)),0)",
+        "plus(plus(plus(minus(minus(x)),minus(x)),x),0)=" "plus(plus(minus(minus(x)),plus(minus(x),x)),0)",
         step9,
         "plus(_,0)",
     )
     step15 = prover.add_substituted_equality(
-        "plus(plus(minus(minus(x)),plus(minus(x),x)),0)="
-        "plus(plus(minus(minus(x)),0),0)",
+        "plus(plus(minus(minus(x)),plus(minus(x),x)),0)=" "plus(plus(minus(minus(x)),0),0)",
         negation,
         "plus(plus(minus(minus(x)),_),0)",
     )
@@ -363,14 +334,11 @@ def prove_group_right_neutral(
         "plus(minus(minus(x)),_)",
     )
     step19 = prover.add_free_instantiation(
-        "plus(minus(minus(x)),plus(minus(x),x))="
-        "plus(plus(minus(minus(x)),minus(x)),x)",
+        "plus(minus(minus(x)),plus(minus(x),x))=" "plus(plus(minus(minus(x)),minus(x)),x)",
         flipped_associativity,
         {"x": "minus(minus(x))", "y": "minus(x)", "z": "x"},
     )
-    step20 = prover.add_substituted_equality(
-        "plus(plus(minus(minus(x)),minus(x)),x)=plus(0,x)", step8, "plus(_,x)"
-    )
+    step20 = prover.add_substituted_equality("plus(plus(minus(minus(x)),minus(x)),x)=plus(0,x)", step8, "plus(_,x)")
     if stop_before_chained_equality:
         return prover.qed()
     step21 = prover.add_chained_equality(
@@ -474,9 +442,7 @@ def prove_peano_left_neutral(print_as_proof_forms: bool = False) -> Proof:
 
 
 #: Axiom schema of (unrestricted) comprehension
-COMPREHENSION_AXIOM = Schema(
-    Formula.parse("Ey[Ax[((In(x,y)->R(x))&(R(x)->In(x,y)))]]"), {"R"}
-)
+COMPREHENSION_AXIOM = Schema(Formula.parse("Ey[Ax[((In(x,y)->R(x))&(R(x)->In(x,y)))]]"), {"R"})
 
 
 def prove_russell_paradox(print_as_proof_forms: bool = False) -> Proof:
@@ -496,9 +462,7 @@ def prove_russell_paradox(print_as_proof_forms: bool = False) -> Proof:
     return prover.qed()
 
 
-def _prove_not_exists_not_implies_all(
-    variable: str, formula: Formula, print_as_proof_forms: bool = False
-) -> Proof:
+def _prove_not_exists_not_implies_all(variable: str, formula: Formula, print_as_proof_forms: bool = False) -> Proof:
     """Proves that
     ``'(~E``\ `variable`\ ``[~``\ `formula`\ ``]->A``\ `variable`\ ``[``\ `formula`\ ``])'``.
 
@@ -518,9 +482,7 @@ def _prove_not_exists_not_implies_all(
     # Optional Task 11.4a
 
 
-def _prove_exists_not_implies_not_all(
-    variable: str, formula: Formula, print_as_proof_forms: bool = False
-) -> Proof:
+def _prove_exists_not_implies_not_all(variable: str, formula: Formula, print_as_proof_forms: bool = False) -> Proof:
     """Proves that
     ``'(E``\ `variable`\ ``[~``\ `formula`\ ``]->~A``\ `variable`\ ``[``\ `formula`\ ``])'``.
 
@@ -540,9 +502,7 @@ def _prove_exists_not_implies_not_all(
     # Optional Task 11.4b
 
 
-def prove_not_all_iff_exists_not(
-    variable: str, formula: Formula, print_as_proof_forms: bool = False
-) -> Proof:
+def prove_not_all_iff_exists_not(variable: str, formula: Formula, print_as_proof_forms: bool = False) -> Proof:
     """Proves that
     `equivalence_of`\ ``('(~A``\ `variable`\ ``[``\ `formula`\ ``]', 'E``\ `variable`\ ``[~``\ `formula`\ ``]')``.
 

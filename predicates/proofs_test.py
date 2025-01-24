@@ -194,10 +194,7 @@ def test_instantiate_helper(debug=False):
             assert e.relation_name == relation_name
         except Exception as e:
             if debug:
-                print(
-                    "Threw an exception as expected, though not a "
-                    "BoundVariableError, but instead: " + str(e)
-                )
+                print("Threw an exception as expected, though not a " "BoundVariableError, but instead: " + str(e))
         assert not reached, "Expected exception"
 
 
@@ -458,16 +455,9 @@ def test_assumption_line_is_valid(debug=False):
         ),
     ]:
         assumption = Schema(Formula.parse(assumption), templates)
-        line = Proof.AssumptionLine(
-            Formula.parse(formula), assumption, instantiation_map
-        )
+        line = Proof.AssumptionLine(Formula.parse(formula), assumption, instantiation_map)
         if debug:
-            print(
-                "Verifying validity of assumption line '"
-                + str(line)
-                + "' given assumption "
-                + str(assumption)
-            )
+            print("Verifying validity of assumption line '" + str(line) + "' given assumption " + str(assumption))
         result = line.is_valid(frozenset({assumption}), [line], 0)
         if debug:
             print("... yields", result)
@@ -476,16 +466,9 @@ def test_assumption_line_is_valid(debug=False):
     # Test foreign assumption
     assumption = Schema(Formula.parse("u=1"), {"u"})
     formula = Formula.parse("x=0")
-    line = Proof.AssumptionLine(
-        formula, Schema(Formula.parse("u=0"), {"u"}), {"u": "x"}
-    )
+    line = Proof.AssumptionLine(formula, Schema(Formula.parse("u=0"), {"u"}), {"u": "x"})
     if debug:
-        print(
-            "Verifying validity of assumption line '"
-            + str(line)
-            + "' given assumption "
-            + str(assumption)
-        )
+        print("Verifying validity of assumption line '" + str(line) + "' given assumption " + str(assumption))
     result = line.is_valid(frozenset({assumption}), [line], 0)
     if debug:
         print("... yields", result)
@@ -498,20 +481,13 @@ def test_mp_line_is_valid(debug=False):
     assumption2 = Schema(Formula.parse("(u=0->v=1)"), {"u", "v"})
     lines = [
         Proof.AssumptionLine(Formula.parse("x=0"), assumption1, {"u": "x"}),
-        Proof.AssumptionLine(
-            Formula.parse("(x=0->y=1)"), assumption2, {"u": "x", "v": "y"}
-        ),
+        Proof.AssumptionLine(Formula.parse("(x=0->y=1)"), assumption2, {"u": "x", "v": "y"}),
         Proof.MPLine(Formula.parse("y=1"), 0, 1),
     ]
     proof = Proof({assumption1, assumption2}, lines[-1].formula, lines)
     checked_line = 2
     if debug:
-        print(
-            "Verifying validity of MP line '"
-            + str(lines[checked_line])
-            + "' in proof:\n"
-            + str(proof)
-        )
+        print("Verifying validity of MP line '" + str(lines[checked_line]) + "' in proof:\n" + str(proof))
     result = lines[checked_line].is_valid(proof.assumptions, proof.lines, checked_line)
     if debug:
         print("... yields", result)
@@ -526,20 +502,13 @@ def test_mp_line_is_valid(debug=False):
             assumption1,
             {"c": Term.parse("f(x)"), "d": Term.parse("g(y)")},
         ),
-        Proof.AssumptionLine(
-            Formula.parse("f(x)=0"), assumption2, {"c": Term.parse("f(x)")}
-        ),
+        Proof.AssumptionLine(Formula.parse("f(x)=0"), assumption2, {"c": Term.parse("f(x)")}),
         Proof.MPLine(Formula.parse("g(y)=1"), 1, 0),
     ]
     proof = Proof({assumption1, assumption2}, lines[-1].formula, lines)
     checked_line = 2
     if debug:
-        print(
-            "Verifying validity of MP line '"
-            + str(lines[checked_line])
-            + "' in proof:\n"
-            + str(proof)
-        )
+        print("Verifying validity of MP line '" + str(lines[checked_line]) + "' in proof:\n" + str(proof))
     result = lines[checked_line].is_valid(proof.assumptions, proof.lines, checked_line)
     if debug:
         print("... yields", result)
@@ -554,20 +523,13 @@ def test_mp_line_is_valid(debug=False):
             assumption1,
             {"c": Term.parse("f(x)"), "d": Term.parse("f(y)")},
         ),
-        Proof.AssumptionLine(
-            Formula.parse("Ax[f(x)=0]"), assumption2, {"c": Term.parse("f(x)")}
-        ),
+        Proof.AssumptionLine(Formula.parse("Ax[f(x)=0]"), assumption2, {"c": Term.parse("f(x)")}),
         Proof.MPLine(Formula.parse("Ey[f(y)=1]"), 1, 0),
     ]
     proof = Proof({assumption1, assumption2}, lines[-1].formula, lines)
     checked_line = 2
     if debug:
-        print(
-            "Verifying validity of MP line '"
-            + str(lines[checked_line])
-            + "' in proof:\n"
-            + str(proof)
-        )
+        print("Verifying validity of MP line '" + str(lines[checked_line]) + "' in proof:\n" + str(proof))
     result = lines[checked_line].is_valid(proof.assumptions, proof.lines, checked_line)
     if debug:
         print("... yields", result)
@@ -578,20 +540,13 @@ def test_mp_line_is_valid(debug=False):
     assumption2 = Schema(Formula.parse("(u=1->v=1)"), {"u", "v"})
     lines = [
         Proof.AssumptionLine(Formula.parse("x=0"), assumption1, {"u": "x"}),
-        Proof.AssumptionLine(
-            Formula.parse("(x=1->y=1)"), assumption2, {"u": "x", "v": "y"}
-        ),
+        Proof.AssumptionLine(Formula.parse("(x=1->y=1)"), assumption2, {"u": "x", "v": "y"}),
         Proof.MPLine(Formula.parse("y=1"), 0, 1),
     ]
     proof = Proof({assumption1, assumption2}, lines[-1].formula, lines)
     checked_line = 2
     if debug:
-        print(
-            "Verifying validity of MP line '"
-            + str(lines[checked_line])
-            + "' in proof:\n"
-            + str(proof)
-        )
+        print("Verifying validity of MP line '" + str(lines[checked_line]) + "' in proof:\n" + str(proof))
     result = lines[checked_line].is_valid(proof.assumptions, proof.lines, checked_line)
     if debug:
         print("... yields", result)
@@ -602,20 +557,13 @@ def test_mp_line_is_valid(debug=False):
     assumption2 = Schema(Formula.parse("(u=0->v=1)"), {"u", "v"})
     lines = [
         Proof.AssumptionLine(Formula.parse("x=0"), assumption1, {"u": "x"}),
-        Proof.AssumptionLine(
-            Formula.parse("(x=0->y=1)"), assumption2, {"u": "x", "v": "y"}
-        ),
+        Proof.AssumptionLine(Formula.parse("(x=0->y=1)"), assumption2, {"u": "x", "v": "y"}),
         Proof.MPLine(Formula.parse("y=0"), 0, 1),
     ]
     proof = Proof({assumption1, assumption2}, lines[-1].formula, lines)
     checked_line = 2
     if debug:
-        print(
-            "Verifying validity of MP line '"
-            + str(lines[checked_line])
-            + "' in proof:\n"
-            + str(proof)
-        )
+        print("Verifying validity of MP line '" + str(lines[checked_line]) + "' in proof:\n" + str(proof))
     result = lines[checked_line].is_valid(proof.assumptions, proof.lines, checked_line)
     if debug:
         print("... yields", result)
@@ -627,19 +575,12 @@ def test_mp_line_is_valid(debug=False):
     lines = [
         Proof.AssumptionLine(Formula.parse("x=0"), assumption1, {"u": "x"}),
         Proof.MPLine(Formula.parse("y=1"), 0, 2),
-        Proof.AssumptionLine(
-            Formula.parse("(x=0->y=1)"), assumption2, {"u": "x", "v": "y"}
-        ),
+        Proof.AssumptionLine(Formula.parse("(x=0->y=1)"), assumption2, {"u": "x", "v": "y"}),
     ]
     proof = Proof({assumption1, assumption2}, lines[-1].formula, lines)
     checked_line = 1
     if debug:
-        print(
-            "Verifying validity of MP line '"
-            + str(lines[checked_line])
-            + "' in proof:\n"
-            + str(proof)
-        )
+        print("Verifying validity of MP line '" + str(lines[checked_line]) + "' in proof:\n" + str(proof))
     result = lines[checked_line].is_valid(proof.assumptions, proof.lines, checked_line)
     if debug:
         print("... yields", result)
@@ -666,15 +607,8 @@ def test_ug_line_is_valid(debug=False):
         proof = Proof({assumption}, formula, lines)
         checked_line = 1
         if debug:
-            print(
-                "Verifying validity of UG line '"
-                + str(lines[checked_line])
-                + " in proof:\n"
-                + str(proof)
-            )
-        result = lines[checked_line].is_valid(
-            proof.assumptions, proof.lines, checked_line
-        )
+            print("Verifying validity of UG line '" + str(lines[checked_line]) + " in proof:\n" + str(proof))
+        result = lines[checked_line].is_valid(proof.assumptions, proof.lines, checked_line)
         if debug:
             print("... yields", result)
         assert result == validity
@@ -689,12 +623,7 @@ def test_ug_line_is_valid(debug=False):
     proof = Proof({assumption}, formula, lines)
     checked_line = 0
     if debug:
-        print(
-            "Verifying validity of UG line '"
-            + str(lines[checked_line])
-            + " in proof:\n"
-            + str(proof)
-        )
+        print("Verifying validity of UG line '" + str(lines[checked_line]) + " in proof:\n" + str(proof))
     result = lines[checked_line].is_valid(proof.assumptions, proof.lines, checked_line)
     if debug:
         print("... yields", result)
@@ -840,9 +769,7 @@ def test_prove_from_skeleton_proof(debug=False):
         skeleton = PropositionalFormula.parse(skeleton)
         skeleton_proof = prove_tautology(skeleton)
         assert skeleton_proof.is_valid(), "Bug in prove_tautology!"
-        proof = _prove_from_skeleton_proof(
-            formula, skeleton_proof, frozendict(substitution_map)
-        )
+        proof = _prove_from_skeleton_proof(formula, skeleton_proof, frozendict(substitution_map))
         assert proof.assumptions == PROPOSITIONAL_AXIOMATIC_SYSTEM_SCHEMAS
         assert proof.conclusion == formula
         assert proof.is_valid()

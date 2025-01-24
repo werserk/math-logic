@@ -182,9 +182,7 @@ def test_encode_as_formula(debug=False):
             "(x->(y->z))",
         ),
         (
-            InferenceRule(
-                [Formula.parse("~y"), Formula.parse("(x->y)")], Formula.parse("~x")
-            ),
+            InferenceRule([Formula.parse("~y"), Formula.parse("(x->y)")], Formula.parse("~x")),
             "(~y->((x->y)->~x))",
         ),
         (

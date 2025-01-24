@@ -45,9 +45,7 @@ def test_prove_group_unique_zero(debug=False):
 
 def test_prove_field_zero_multiplication(debug=False):
     proof = prove_field_zero_multiplication(debug)
-    assert proof.assumptions == Prover.AXIOMS.union(
-        {Schema(Formula.parse(a)) for a in FIELD_AXIOMS}
-    )
+    assert proof.assumptions == Prover.AXIOMS.union({Schema(Formula.parse(a)) for a in FIELD_AXIOMS})
     assert str(proof.conclusion) == "times(0,x)=0"
     assert proof.is_valid()
 
@@ -65,10 +63,7 @@ def test_prove_russell_paradox(debug=False):
     proof = prove_russell_paradox(debug)
     assert proof.assumptions == Prover.AXIOMS.union({COMPREHENSION_AXIOM})
     for line in proof.lines:
-        if (
-            isinstance(line, Proof.AssumptionLine)
-            and line.assumption == COMPREHENSION_AXIOM
-        ):
+        if isinstance(line, Proof.AssumptionLine) and line.assumption == COMPREHENSION_AXIOM:
             assert line.instantiation_map["R"] == Formula.parse("~In(_,_)")
     assert str(proof.conclusion) == "(z=z&~z=z)"
     assert proof.is_valid()

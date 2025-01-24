@@ -16,96 +16,62 @@ from predicates.prover import *
 
 #: Additional axioms of quantification for Predicate Logic.
 ADDITIONAL_QUANTIFICATION_AXIOMS = (
+    Schema(Formula.parse("((~Ax[R(x)]->Ex[~R(x)])&(Ex[~R(x)]->~Ax[R(x)]))"), {"x", "R"}),
+    Schema(Formula.parse("((~Ex[R(x)]->Ax[~R(x)])&(Ax[~R(x)]->~Ex[R(x)]))"), {"x", "R"}),
     Schema(
-        Formula.parse("((~Ax[R(x)]->Ex[~R(x)])&(Ex[~R(x)]->~Ax[R(x)]))"), {"x", "R"}
-    ),
-    Schema(
-        Formula.parse("((~Ex[R(x)]->Ax[~R(x)])&(Ax[~R(x)]->~Ex[R(x)]))"), {"x", "R"}
-    ),
-    Schema(
-        Formula.parse(
-            "(((Ax[R(x)]&Q())->Ax[(R(x)&Q())])&" "(Ax[(R(x)&Q())]->(Ax[R(x)]&Q())))"
-        ),
+        Formula.parse("(((Ax[R(x)]&Q())->Ax[(R(x)&Q())])&" "(Ax[(R(x)&Q())]->(Ax[R(x)]&Q())))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Ex[R(x)]&Q())->Ex[(R(x)&Q())])&" "(Ex[(R(x)&Q())]->(Ex[R(x)]&Q())))"
-        ),
+        Formula.parse("(((Ex[R(x)]&Q())->Ex[(R(x)&Q())])&" "(Ex[(R(x)&Q())]->(Ex[R(x)]&Q())))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Q()&Ax[R(x)])->Ax[(Q()&R(x))])&" "(Ax[(Q()&R(x))]->(Q()&Ax[R(x)])))"
-        ),
+        Formula.parse("(((Q()&Ax[R(x)])->Ax[(Q()&R(x))])&" "(Ax[(Q()&R(x))]->(Q()&Ax[R(x)])))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Q()&Ex[R(x)])->Ex[(Q()&R(x))])&" "(Ex[(Q()&R(x))]->(Q()&Ex[R(x)])))"
-        ),
+        Formula.parse("(((Q()&Ex[R(x)])->Ex[(Q()&R(x))])&" "(Ex[(Q()&R(x))]->(Q()&Ex[R(x)])))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Ax[R(x)]|Q())->Ax[(R(x)|Q())])&" "(Ax[(R(x)|Q())]->(Ax[R(x)]|Q())))"
-        ),
+        Formula.parse("(((Ax[R(x)]|Q())->Ax[(R(x)|Q())])&" "(Ax[(R(x)|Q())]->(Ax[R(x)]|Q())))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Ex[R(x)]|Q())->Ex[(R(x)|Q())])&" "(Ex[(R(x)|Q())]->(Ex[R(x)]|Q())))"
-        ),
+        Formula.parse("(((Ex[R(x)]|Q())->Ex[(R(x)|Q())])&" "(Ex[(R(x)|Q())]->(Ex[R(x)]|Q())))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Q()|Ax[R(x)])->Ax[(Q()|R(x))])&" "(Ax[(Q()|R(x))]->(Q()|Ax[R(x)])))"
-        ),
+        Formula.parse("(((Q()|Ax[R(x)])->Ax[(Q()|R(x))])&" "(Ax[(Q()|R(x))]->(Q()|Ax[R(x)])))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Q()|Ex[R(x)])->Ex[(Q()|R(x))])&" "(Ex[(Q()|R(x))]->(Q()|Ex[R(x)])))"
-        ),
+        Formula.parse("(((Q()|Ex[R(x)])->Ex[(Q()|R(x))])&" "(Ex[(Q()|R(x))]->(Q()|Ex[R(x)])))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Ax[R(x)]->Q())->Ex[(R(x)->Q())])&" "(Ex[(R(x)->Q())]->(Ax[R(x)]->Q())))"
-        ),
+        Formula.parse("(((Ax[R(x)]->Q())->Ex[(R(x)->Q())])&" "(Ex[(R(x)->Q())]->(Ax[R(x)]->Q())))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Ex[R(x)]->Q())->Ax[(R(x)->Q())])&" "(Ax[(R(x)->Q())]->(Ex[R(x)]->Q())))"
-        ),
+        Formula.parse("(((Ex[R(x)]->Q())->Ax[(R(x)->Q())])&" "(Ax[(R(x)->Q())]->(Ex[R(x)]->Q())))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Q()->Ax[R(x)])->Ax[(Q()->R(x))])&" "(Ax[(Q()->R(x))]->(Q()->Ax[R(x)])))"
-        ),
+        Formula.parse("(((Q()->Ax[R(x)])->Ax[(Q()->R(x))])&" "(Ax[(Q()->R(x))]->(Q()->Ax[R(x)])))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((Q()->Ex[R(x)])->Ex[(Q()->R(x))])&" "(Ex[(Q()->R(x))]->(Q()->Ex[R(x)])))"
-        ),
+        Formula.parse("(((Q()->Ex[R(x)])->Ex[(Q()->R(x))])&" "(Ex[(Q()->R(x))]->(Q()->Ex[R(x)])))"),
         {"x", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((R(x)->Q(x))&(Q(x)->R(x)))->"
-            "((Ax[R(x)]->Ay[Q(y)])&(Ay[Q(y)]->Ax[R(x)])))"
-        ),
+        Formula.parse("(((R(x)->Q(x))&(Q(x)->R(x)))->" "((Ax[R(x)]->Ay[Q(y)])&(Ay[Q(y)]->Ax[R(x)])))"),
         {"x", "y", "R", "Q"},
     ),
     Schema(
-        Formula.parse(
-            "(((R(x)->Q(x))&(Q(x)->R(x)))->"
-            "((Ex[R(x)]->Ey[Q(y)])&(Ey[Q(y)]->Ex[R(x)])))"
-        ),
+        Formula.parse("(((R(x)->Q(x))&(Q(x)->R(x)))->" "((Ex[R(x)]->Ey[Q(y)])&(Ey[Q(y)]->Ex[R(x)])))"),
         {"x", "y", "R", "Q"},
     ),
 )
@@ -149,9 +115,7 @@ def equivalence_of(formula1: Formula, formula2: Formula) -> Formula:
     Returns:
         The formula ``'((``\ `formula1`\ ``->``\ `formula2`\ ``)&(``\ `formula2`\ ``->``\ `formula1`\ ``))'``.
     """
-    return Formula(
-        "&", Formula("->", formula1, formula2), Formula("->", formula2, formula1)
-    )
+    return Formula("&", Formula("->", formula1, formula2), Formula("->", formula2, formula1))
 
 
 def has_uniquely_named_variables(formula: Formula) -> bool:
@@ -185,9 +149,9 @@ def has_uniquely_named_variables(formula: Formula) -> bool:
         if is_unary(formula.root):
             return has_uniquely_named_variables_helper(formula.first)
         elif is_binary(formula.root):
-            return has_uniquely_named_variables_helper(
-                formula.first
-            ) and has_uniquely_named_variables_helper(formula.second)
+            return has_uniquely_named_variables_helper(formula.first) and has_uniquely_named_variables_helper(
+                formula.second
+            )
         elif is_quantifier(formula.root):
             if formula.variable in forbidden_variables:
                 return False

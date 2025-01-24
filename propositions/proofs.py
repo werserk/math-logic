@@ -59,13 +59,7 @@ class InferenceRule:
         Returns:
             A string representation of the current inference rule.
         """
-        return (
-            str([str(assumption) for assumption in self.assumptions])
-            + " ==> "
-            + "'"
-            + str(self.conclusion)
-            + "'"
-        )
+        return str([str(assumption) for assumption in self.assumptions]) + " ==> " + "'" + str(self.conclusion) + "'"
 
     def __eq__(self, other: object) -> bool:
         """Compares the current inference rule with the given one.
@@ -151,9 +145,7 @@ class InferenceRule:
         # Task 4.5a
 
     @staticmethod
-    def _formula_specialization_map(
-        general: Formula, specialization: Formula
-    ) -> Union[SpecializationMap, None]:
+    def _formula_specialization_map(general: Formula, specialization: Formula) -> Union[SpecializationMap, None]:
         """Computes the minimal specialization map by which the given formula
         specializes to the given specialization.
 
@@ -167,9 +159,7 @@ class InferenceRule:
         """
         # Task 4.5b
 
-    def specialization_map(
-        self, specialization: InferenceRule
-    ) -> Union[SpecializationMap, None]:
+    def specialization_map(self, specialization: InferenceRule) -> Union[SpecializationMap, None]:
         """Computes the minimal specialization map by which the current
         inference rule specializes to the given specialization.
 
@@ -278,9 +268,7 @@ class Proof:
                     ``None`` if the formula is to be justified as an assumption
                     of the proof.
             """
-            assert (rule is None and assumptions is None) or (
-                rule is not None and assumptions is not None
-            )
+            assert (rule is None and assumptions is None) or (rule is not None and assumptions is not None)
             self.formula = formula
             self.rule = rule
             if assumptions is not None:
@@ -398,9 +386,7 @@ def prove_specialization(proof: Proof, specialization: InferenceRule) -> Proof:
     # Task 5.1
 
 
-def _inline_proof_once(
-    main_proof: Proof, line_number: int, lemma_proof: Proof
-) -> Proof:
+def _inline_proof_once(main_proof: Proof, line_number: int, lemma_proof: Proof) -> Proof:
     """Inlines the given proof of a "lemma" inference rule into the given proof
     that uses that "lemma" rule, eliminating the usage of (a specialization of)
     that "lemma" rule in the specified line in the latter proof.
