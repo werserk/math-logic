@@ -289,6 +289,8 @@ class Formula:
             representation of a formula, ``False`` otherwise.
         """
         # Task 1.5
+        formula, remaining = Formula._parse_prefix(string)
+        return formula is not None and remaining == ''
 
     @staticmethod
     def parse(string: str) -> Formula:
