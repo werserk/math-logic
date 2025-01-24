@@ -7,6 +7,8 @@
 """Syntactic handling of propositional formulas."""
 
 from __future__ import annotations
+
+from collections.abc import Callable
 from functools import lru_cache
 from typing import Mapping, Optional, Set, Tuple, Union
 
@@ -86,10 +88,10 @@ class Formula:
     second: Optional[Formula]
 
     def __init__(
-        self,
-        root: str,
-        first: Optional[Formula] = None,
-        second: Optional[Formula] = None,
+            self,
+            root: str,
+            first: Optional[Formula] = None,
+            second: Optional[Formula] = None,
     ):
         """Initializes a `Formula` from its root and root operands.
 
@@ -190,6 +192,12 @@ class Formula:
         return {self.root}.union(self.first.operators()).union(self.second.operators())
 
     @staticmethod
+    def __is_char_like(string: str, index: int, func: Callable[[str], bool]) -> bool:
+        if len(string) <= index:
+            return False
+        return func(string[index])
+
+    @staticmethod
     def _parse_prefix(string: str) -> Tuple[Union[Formula, None], str]:
         """Parses a prefix of the given string into a formula.
 
@@ -207,6 +215,67 @@ class Formula:
             is a string with some human-readable content.
         """
         # Task 1.4
+        if not string:
+            return None, "Empty string"
+
+        # Handle variable
+        if is_variable(string[0]):
+            i = 1
+            while i < len(string) and string[i].isdigit():
+                i += 1
+            var = string[:i]
+            return Formula(var), string[i:]
+
+        # Handle constant
+        if is_constant(string[0]):
+            return Formula(string[0]), string[1:]
+
+        # Handle unary operator
+        if is_unary(string[0]):
+            operand, remaining = Formula._parse_prefix(string[1:])
+            if operand is None:
+                return None, "Expected operand after unary operator '~'"
+            return Formula(string[0], operand), remaining
+
+        # Handle binary operator with parentheses
+        if string[0] == '(':
+            # Parse first operand
+            first, remaining = Formula._parse_prefix(string[1:])
+            if first is None:
+                return None, "Expected first operand after '('"
+
+            # Skip any whitespace (if applicable)
+            # Not necessary here as formulas don't include spaces
+
+            # Parse operator
+            operator = None
+            if remaining.startswith('->'):
+                operator = '->'
+                remaining = remaining[2:]
+            elif remaining.startswith('&'):
+                operator = '&'
+                remaining = remaining[1:]
+            elif remaining.startswith('|'):
+                operator = '|'
+                remaining = remaining[1:]
+            else:
+                return None, f"Expected binary operator after first operand, found: '{remaining[:2]}'"
+
+            # Parse second operand
+            second, remaining = Formula._parse_prefix(remaining)
+            if second is None:
+                return None, "Expected second operand after operator"
+
+            # Expect closing parenthesis
+            if not remaining.startswith(')'):
+                return None, "Expected ')' after second operand"
+            remaining = remaining[1:]
+
+            return Formula(operator, first, second), remaining
+
+        # If none of the above, it's an invalid formula
+        return None, f"Unexpected character: '{string[0]}'"
+
 
     @staticmethod
     def is_formula(string: str) -> bool:
