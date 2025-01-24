@@ -181,6 +181,13 @@ class Formula:
             current formula.
         """
         # Task 1.3
+        if is_variable(self.root):
+            return set()
+        elif is_constant(self.root):
+            return {self.root}
+        if is_unary(self.root):
+            return {self.root}.union(self.first.operators())
+        return {self.root}.union(self.first.operators()).union(self.second.operators())
 
     @staticmethod
     def _parse_prefix(string: str) -> Tuple[Union[Formula, None], str]:
