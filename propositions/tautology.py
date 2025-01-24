@@ -16,6 +16,7 @@ from propositions.proofs import *
 from propositions.axiomatic_systems import *
 from propositions.deduction import *
 
+
 def formulas_capturing_model(model: Model) -> List[Formula]:
     """Computes the formulas that capture the given model: ``'``\ `x`\ ``'``
     for each variable name `x` that is assigned the value ``True`` in the given
@@ -36,7 +37,8 @@ def formulas_capturing_model(model: Model) -> List[Formula]:
     assert is_model(model)
     # Task 6.1a
 
-def prove_in_model(formula: Formula, model:Model) -> Proof:
+
+def prove_in_model(formula: Formula, model: Model) -> Proof:
     """Either proves the given formula or proves its negation, from the formulas
     that capture the given model.
 
@@ -75,12 +77,14 @@ def prove_in_model(formula: Formula, model:Model) -> Proof:
         >>> proof.rules == AXIOMATIC_SYSTEM
         True
     """
-    assert formula.operators().issubset({'->', '~'})
+    assert formula.operators().issubset({"->", "~"})
     assert is_model(model)
     # Task 6.1b
 
-def reduce_assumption(proof_from_affirmation: Proof,
-                      proof_from_negation: Proof) -> Proof:
+
+def reduce_assumption(
+    proof_from_affirmation: Proof, proof_from_negation: Proof
+) -> Proof:
     """Combines the two given proofs, both of the same formula `conclusion` and
     from the same assumptions except that the last assumption of the latter is
     the negation of that of the former, into a single proof of `conclusion` from
@@ -112,16 +116,23 @@ def reduce_assumption(proof_from_affirmation: Proof,
     """
     assert proof_from_affirmation.is_valid()
     assert proof_from_negation.is_valid()
-    assert proof_from_affirmation.statement.conclusion == \
-           proof_from_negation.statement.conclusion
+    assert (
+        proof_from_affirmation.statement.conclusion
+        == proof_from_negation.statement.conclusion
+    )
     assert len(proof_from_affirmation.statement.assumptions) > 0
     assert len(proof_from_negation.statement.assumptions) > 0
-    assert proof_from_affirmation.statement.assumptions[:-1] == \
-           proof_from_negation.statement.assumptions[:-1]
-    assert Formula('~', proof_from_affirmation.statement.assumptions[-1]) == \
-           proof_from_negation.statement.assumptions[-1]
+    assert (
+        proof_from_affirmation.statement.assumptions[:-1]
+        == proof_from_negation.statement.assumptions[:-1]
+    )
+    assert (
+        Formula("~", proof_from_affirmation.statement.assumptions[-1])
+        == proof_from_negation.statement.assumptions[-1]
+    )
     assert proof_from_affirmation.rules == proof_from_negation.rules
     # Task 6.2
+
 
 def prove_tautology(tautology: Formula, model: Model = frozendict()) -> Proof:
     """Proves the given tautology from the formulas that capture the given
@@ -163,10 +174,11 @@ def prove_tautology(tautology: Formula, model: Model = frozendict()) -> Proof:
         True
     """
     assert is_tautology(tautology)
-    assert tautology.operators().issubset({'->', '~'})
+    assert tautology.operators().issubset({"->", "~"})
     assert is_model(model)
-    assert sorted(tautology.variables())[:len(model)] == sorted(model.keys())
+    assert sorted(tautology.variables())[: len(model)] == sorted(model.keys())
     # Task 6.3a
+
 
 def proof_or_counterexample(formula: Formula) -> Union[Proof, Model]:
     """Either proves the given formula or finds a model in which it does not
@@ -181,8 +193,9 @@ def proof_or_counterexample(formula: Formula) -> Union[Proof, Model]:
         formula via `~propositions.axiomatic_systems.AXIOMATIC_SYSTEM`,
         otherwise a model in which the given formula does not hold.
     """
-    assert formula.operators().issubset({'->', '~'})
+    assert formula.operators().issubset({"->", "~"})
     # Task 6.3b
+
 
 def encode_as_formula(rule: InferenceRule) -> Formula:
     """Encodes the given inference rule as a formula consisting of a chain of
@@ -205,6 +218,7 @@ def encode_as_formula(rule: InferenceRule) -> Formula:
     """
     # Task 6.4a
 
+
 def prove_sound_inference(rule: InferenceRule) -> Proof:
     """Proves the given sound inference rule.
 
@@ -218,8 +232,9 @@ def prove_sound_inference(rule: InferenceRule) -> Proof:
     """
     assert is_sound_inference(rule)
     for formula in {rule.conclusion}.union(rule.assumptions):
-        assert formula.operators().issubset({'->', '~'})
+        assert formula.operators().issubset({"->", "~"})
     # Task 6.4b
+
 
 def model_or_inconsistency(formulas: Sequence[Formula]) -> Union[Model, Proof]:
     """Either finds a model in which all the given formulas hold, or proves
@@ -235,8 +250,9 @@ def model_or_inconsistency(formulas: Sequence[Formula]) -> Union[Model, Proof]:
         `~propositions.axiomatic_systems.AXIOMATIC_SYSTEM`.
     """
     for formula in formulas:
-        assert formula.operators().issubset({'->', '~'})
+        assert formula.operators().issubset({"->", "~"})
     # Task 6.5
+
 
 def prove_in_model_full(formula: Formula, model: Model) -> Proof:
     """Either proves the given formula or proves its negation, from the formulas
@@ -278,6 +294,6 @@ def prove_in_model_full(formula: Formula, model: Model) -> Proof:
         >>> proof.rules == AXIOMATIC_SYSTEM_FULL
         True
     """
-    assert formula.operators().issubset({'T', 'F', '->', '~', '&', '|'})
+    assert formula.operators().issubset({"T", "F", "->", "~", "&", "|"})
     assert is_model(model)
     # Optional Task 6.6

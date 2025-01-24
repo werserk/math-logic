@@ -15,6 +15,7 @@ from propositions.proofs import *
 #: truth values.
 Model = Mapping[str, bool]
 
+
 def is_model(model: Model) -> bool:
     """Checks if the given dictionary is a model over some set of variable
     names.
@@ -31,6 +32,7 @@ def is_model(model: Model) -> bool:
             return False
     return True
 
+
 def variables(model: Model) -> AbstractSet[str]:
     """Finds all variable names over which the given model is defined.
 
@@ -42,6 +44,7 @@ def variables(model: Model) -> AbstractSet[str]:
     """
     assert is_model(model)
     return model.keys()
+
 
 def evaluate(formula: Formula, model: Model) -> bool:
     """Calculates the truth value of the given formula in the given model.
@@ -65,6 +68,7 @@ def evaluate(formula: Formula, model: Model) -> bool:
     assert formula.variables().issubset(variables(model))
     # Task 2.1
 
+
 def all_models(variables: Sequence[str]) -> Iterable[Model]:
     """Calculates all possible models over the given variable names.
 
@@ -87,6 +91,7 @@ def all_models(variables: Sequence[str]) -> Iterable[Model]:
         assert is_variable(v)
     # Task 2.2
 
+
 def truth_values(formula: Formula, models: Iterable[Model]) -> Iterable[bool]:
     """Calculates the truth value of the given formula in each of the given
     models.
@@ -104,6 +109,7 @@ def truth_values(formula: Formula, models: Iterable[Model]) -> Iterable[bool]:
         [True, True, True, False]
     """
     # Task 2.3
+
 
 def print_truth_table(formula: Formula) -> None:
     """Prints the truth table of the given formula, with variable-name columns
@@ -123,6 +129,7 @@ def print_truth_table(formula: Formula) -> None:
     """
     # Task 2.4
 
+
 def is_tautology(formula: Formula) -> bool:
     """Checks if the given formula is a tautology.
 
@@ -133,6 +140,7 @@ def is_tautology(formula: Formula) -> bool:
         ``True`` if the given formula is a tautology, ``False`` otherwise.
     """
     # Task 2.5a
+
 
 def is_contradiction(formula: Formula) -> bool:
     """Checks if the given formula is a contradiction.
@@ -145,6 +153,7 @@ def is_contradiction(formula: Formula) -> bool:
     """
     # Task 2.5b
 
+
 def is_satisfiable(formula: Formula) -> bool:
     """Checks if the given formula is satisfiable.
 
@@ -155,6 +164,7 @@ def is_satisfiable(formula: Formula) -> bool:
         ``True`` if the given formula is satisfiable, ``False`` otherwise.
     """
     # Task 2.5c
+
 
 def _synthesize_for_model(model: Model) -> Formula:
     """Synthesizes a propositional formula in the form of a single conjunctive
@@ -171,6 +181,7 @@ def _synthesize_for_model(model: Model) -> Formula:
     assert is_model(model)
     assert len(model.keys()) > 0
     # Task 2.6
+
 
 def synthesize(variables: Sequence[str], values: Iterable[bool]) -> Formula:
     """Synthesizes a propositional formula in DNF over the given variable names,
@@ -197,6 +208,7 @@ def synthesize(variables: Sequence[str], values: Iterable[bool]) -> Formula:
     assert len(variables) > 0
     # Task 2.7
 
+
 def _synthesize_for_all_except_model(model: Model) -> Formula:
     """Synthesizes a propositional formula in the form of a single disjunctive
     clause that evaluates to ``False`` in the given model, and to ``True`` in
@@ -212,6 +224,7 @@ def _synthesize_for_all_except_model(model: Model) -> Formula:
     assert is_model(model)
     assert len(model.keys()) > 0
     # Optional Task 2.8
+
 
 def synthesize_cnf(variables: Sequence[str], values: Iterable[bool]) -> Formula:
     """Synthesizes a propositional formula in CNF over the given variable names,
@@ -238,6 +251,7 @@ def synthesize_cnf(variables: Sequence[str], values: Iterable[bool]) -> Formula:
     assert len(variables) > 0
     # Optional Task 2.9
 
+
 def evaluate_inference(rule: InferenceRule, model: Model) -> bool:
     """Checks if the given inference rule holds in the given model.
 
@@ -260,6 +274,7 @@ def evaluate_inference(rule: InferenceRule, model: Model) -> bool:
     """
     assert is_model(model)
     # Task 4.2
+
 
 def is_sound_inference(rule: InferenceRule) -> bool:
     """Checks if the given inference rule is sound, i.e., whether its

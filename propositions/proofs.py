@@ -7,8 +7,17 @@
 """Proofs by deduction in Propositional Logic."""
 
 from __future__ import annotations
-from typing import AbstractSet, FrozenSet, List, Mapping, Optional, Sequence, \
-                   Set, Tuple, Union
+from typing import (
+    AbstractSet,
+    FrozenSet,
+    List,
+    Mapping,
+    Optional,
+    Sequence,
+    Set,
+    Tuple,
+    Union,
+)
 
 from logic_utils import frozen, memoized_parameterless_method
 
@@ -16,6 +25,7 @@ from propositions.syntax import *
 
 #: A mapping from variable names to formulas.
 SpecializationMap = Mapping[str, Formula]
+
 
 @frozen
 class InferenceRule:
@@ -28,6 +38,7 @@ class InferenceRule:
             the assumptions of the rule.
         conclusion (`~propositions.syntax.Formula`): the conclusion of the rule.
     """
+
     assumptions: Tuple[Formula, ...]
     conclusion: Formula
 
@@ -48,8 +59,13 @@ class InferenceRule:
         Returns:
             A string representation of the current inference rule.
         """
-        return str([str(assumption) for assumption in self.assumptions]) + \
-               ' ==> ' + "'" + str(self.conclusion) + "'"
+        return (
+            str([str(assumption) for assumption in self.assumptions])
+            + " ==> "
+            + "'"
+            + str(self.conclusion)
+            + "'"
+        )
 
     def __eq__(self, other: object) -> bool:
         """Compares the current inference rule with the given one.
@@ -61,9 +77,11 @@ class InferenceRule:
             ``True`` if the given object is an `InferenceRule` object that
             equals the current inference rule, ``False`` otherwise.
         """
-        return isinstance(other, InferenceRule) and \
-               self.assumptions == other.assumptions and \
-               self.conclusion == other.conclusion
+        return (
+            isinstance(other, InferenceRule)
+            and self.assumptions == other.assumptions
+            and self.conclusion == other.conclusion
+        )
 
     def __ne__(self, other: object) -> bool:
         """Compares the current inference rule with the given one.
@@ -80,7 +98,7 @@ class InferenceRule:
 
     def __hash__(self) -> int:
         return hash(str(self))
-        
+
     def variables(self) -> Set[str]:
         """Finds all variable names in the current inference rule.
 
@@ -90,8 +108,7 @@ class InferenceRule:
         """
         # Task 4.1
 
-    def specialize(self, specialization_map: SpecializationMap) -> \
-            InferenceRule:
+    def specialize(self, specialization_map: SpecializationMap) -> InferenceRule:
         """Specializes the current inference rule by simultaneously substituting
         each variable name `v` that is a key in `specialization_map` with the
         formula `specialization_map[v]`.
@@ -102,16 +119,16 @@ class InferenceRule:
 
         Returns:
             The resulting inference rule.
-        """        
+        """
         for variable in specialization_map:
             assert is_variable(variable)
         # Task 4.4
 
     @staticmethod
     def _merge_specialization_maps(
-            specialization_map1: Union[SpecializationMap, None],
-            specialization_map2: Union[SpecializationMap, None]) -> \
-            Union[SpecializationMap, None]:
+        specialization_map1: Union[SpecializationMap, None],
+        specialization_map2: Union[SpecializationMap, None],
+    ) -> Union[SpecializationMap, None]:
         """Merges the given specialization maps while checking their
         consistency.
 
@@ -132,10 +149,11 @@ class InferenceRule:
             for variable in specialization_map2:
                 assert is_variable(variable)
         # Task 4.5a
-        
+
     @staticmethod
-    def _formula_specialization_map(general: Formula, specialization: Formula) \
-            -> Union[SpecializationMap, None]:
+    def _formula_specialization_map(
+        general: Formula, specialization: Formula
+    ) -> Union[SpecializationMap, None]:
         """Computes the minimal specialization map by which the given formula
         specializes to the given specialization.
 
@@ -149,8 +167,9 @@ class InferenceRule:
         """
         # Task 4.5b
 
-    def specialization_map(self, specialization: InferenceRule) -> \
-            Union[SpecializationMap, None]:
+    def specialization_map(
+        self, specialization: InferenceRule
+    ) -> Union[SpecializationMap, None]:
         """Computes the minimal specialization map by which the current
         inference rule specializes to the given specialization.
 
@@ -176,6 +195,7 @@ class InferenceRule:
         """
         return general.specialization_map(self) is not None
 
+
 @frozen
 class Proof:
     """An immutable deductive proof in Propositional Logic, comprised of a
@@ -189,13 +209,17 @@ class Proof:
             the proof.
         lines (`~typing.Tuple`\\[`Line`]): the lines of the proof.
     """
+
     statement: InferenceRule
     rules: FrozenSet[InferenceRule]
     lines: Tuple[Proof.Line, ...]
-    
-    def __init__(self, statement: InferenceRule,
-                 rules: AbstractSet[InferenceRule],
-                 lines: Sequence[Proof.Line]):
+
+    def __init__(
+        self,
+        statement: InferenceRule,
+        rules: AbstractSet[InferenceRule],
+        lines: Sequence[Proof.Line],
+    ):
         """Initializes a `Proof` from its statement, allowed inference rules,
         and lines.
 
@@ -228,13 +252,17 @@ class Proof:
                 the rule that concludes the formula, if the formula is not
                 justified as an assumption of the proof.
         """
+
         formula: Formula
         rule: Optional[InferenceRule]
         assumptions: Optional[Tuple[int, ...]]
 
-        def __init__(self, formula: Formula,
-                     rule: Optional[InferenceRule] = None,
-                     assumptions: Optional[Sequence[int]] = None):
+        def __init__(
+            self,
+            formula: Formula,
+            rule: Optional[InferenceRule] = None,
+            assumptions: Optional[Sequence[int]] = None,
+        ):
             """Initializes a `~Proof.Line` from its formula, and optionally its
             rule and numbers of justifying previous lines.
 
@@ -250,8 +278,9 @@ class Proof:
                     ``None`` if the formula is to be justified as an assumption
                     of the proof.
             """
-            assert (rule is None and assumptions is None) or \
-                   (rule is not None and assumptions is not None)
+            assert (rule is None and assumptions is None) or (
+                rule is not None and assumptions is not None
+            )
             self.formula = formula
             self.rule = rule
             if assumptions is not None:
@@ -266,12 +295,12 @@ class Proof:
             if self.rule is None:
                 return str(self.formula)
             else:
-                r = str(self.formula) + '    (Inference Rule ' + str(self.rule)
+                r = str(self.formula) + "    (Inference Rule " + str(self.rule)
                 if len(self.assumptions) == 1:
-                    r += ' on line ' + str(self.assumptions[0])
+                    r += " on line " + str(self.assumptions[0])
                 elif len(self.assumptions) > 1:
-                    r += ' on lines ' + ','.join(map(str, self.assumptions))
-                r += ')'
+                    r += " on lines " + ",".join(map(str, self.assumptions))
+                r += ")"
                 return r
 
         def is_assumption(self) -> bool:
@@ -283,19 +312,19 @@ class Proof:
                 of the proof, ``False`` otherwise.
             """
             return self.rule is None
-        
+
     def __repr__(self) -> str:
         """Computes a string representation of the current proof.
 
         Returns:
             A string representation of the current proof.
         """
-        r = 'Proof of ' + str(self.statement) + ' via inference rules:\n'
+        r = "Proof of " + str(self.statement) + " via inference rules:\n"
         for rule in self.rules:
-            r += '  ' + str(rule) + '\n'
-        r += 'Lines:\n'
+            r += "  " + str(rule) + "\n"
+        r += "Lines:\n"
         for i in range(len(self.lines)):
-            r += ('%3d) ' % i) + str(self.lines[i]) + '\n'
+            r += ("%3d) " % i) + str(self.lines[i]) + "\n"
         r += "QED\n"
         return r
 
@@ -340,7 +369,7 @@ class Proof:
         """
         assert line_number < len(self.lines)
         # Task 4.6b
-        
+
     def is_valid(self) -> bool:
         """Checks if the current proof is a valid proof of its claimed statement
         via its inference rules.
@@ -350,6 +379,7 @@ class Proof:
             statement via its inference rules, ``False`` otherwise.
         """
         # Task 4.6c
+
 
 def prove_specialization(proof: Proof, specialization: InferenceRule) -> Proof:
     """Converts the given proof of an inference rule to a proof of the given
@@ -367,8 +397,10 @@ def prove_specialization(proof: Proof, specialization: InferenceRule) -> Proof:
     assert specialization.is_specialization_of(proof.statement)
     # Task 5.1
 
-def _inline_proof_once(main_proof: Proof, line_number: int,
-                       lemma_proof: Proof) -> Proof:
+
+def _inline_proof_once(
+    main_proof: Proof, line_number: int, lemma_proof: Proof
+) -> Proof:
     """Inlines the given proof of a "lemma" inference rule into the given proof
     that uses that "lemma" rule, eliminating the usage of (a specialization of)
     that "lemma" rule in the specified line in the latter proof.
@@ -396,6 +428,7 @@ def _inline_proof_once(main_proof: Proof, line_number: int,
     assert main_proof.lines[line_number].rule == lemma_proof.statement
     assert lemma_proof.is_valid()
     # Task 5.2a
+
 
 def inline_proof(main_proof: Proof, lemma_proof: Proof) -> Proof:
     """Inlines the given proof of a "lemma" inference rule into the given proof

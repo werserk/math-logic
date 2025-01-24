@@ -10,9 +10,11 @@ from propositions.syntax_test import *
 from propositions.semantics_test import *
 from propositions.operators_test import *
 
+
 def test_before_tasks(debug=False):
-    assert is_binary('+'), 'Change is_binary() before testing Chapter 3 tasks.'
+    assert is_binary("+"), "Change is_binary() before testing Chapter 3 tasks."
     test_operators_defined(debug)
+
 
 def test_task1(debug=False):
     test_repr(debug)
@@ -27,7 +29,8 @@ def test_task1(debug=False):
     test_is_formula_all_operators(debug)
     test_parse(debug)
     test_parse_all_operators(debug)
-         
+
+
 def test_task2(debug=False):
     test_evaluate(debug)
     test_evaluate_all_operators(debug)
@@ -38,28 +41,36 @@ def test_task2(debug=False):
     test_is_tautology_all_operators(debug)
     test_print_truth_table(debug)
 
+
 def test_task3(debug=False):
     test_substitute_variables(debug)
+
 
 def test_task4(debug=False):
     test_substitute_operators(debug)
 
+
 def test_task5(debug=False):
     test_to_not_and_or(debug)
+
 
 def test_task6a(debug=False):
     test_to_not_and(debug)
 
+
 def test_task6b(debug=False):
     test_to_nand(debug)
+
 
 def test_task6c(debug=False):
     test_to_implies_not(debug)
 
+
 def test_task6d(debug=False):
     test_to_implies_false(debug)
 
-test_before_tasks(True)    
+
+test_before_tasks(True)
 test_task1(True)
 test_task2(True)
 test_task3(True)

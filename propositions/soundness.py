@@ -12,9 +12,10 @@ from propositions.syntax import *
 from propositions.semantics import *
 from propositions.proofs import *
 
+
 def rule_nonsoundness_from_specialization_nonsoundness(
-        general: InferenceRule, specialization: InferenceRule, model: Model) \
-        -> Model:
+    general: InferenceRule, specialization: InferenceRule, model: Model
+) -> Model:
     """Demonstrates the non-soundness of the given general inference rule given
     an example of the non-soundness of the given specialization of this rule.
 
@@ -31,8 +32,10 @@ def rule_nonsoundness_from_specialization_nonsoundness(
     assert not evaluate_inference(specialization, model)
     # Task 4.9
 
-def nonsound_rule_of_nonsound_proof(proof: Proof, model: Model) -> \
-        Tuple[InferenceRule, Model]:
+
+def nonsound_rule_of_nonsound_proof(
+    proof: Proof, model: Model
+) -> Tuple[InferenceRule, Model]:
     """Finds a non-sound inference rule used by the given valid proof of a
     non-sound inference rule, and demonstrates the non-soundness of the former
     rule.

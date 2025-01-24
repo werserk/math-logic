@@ -12,27 +12,26 @@ from propositions.proofs import *
 # Axiomatic inference rules that only contain implies
 
 #: Modus ponens / implication elimination
-MP = InferenceRule([Formula.parse('p'), Formula.parse('(p->q)')],
-                   Formula.parse('q'))
+MP = InferenceRule([Formula.parse("p"), Formula.parse("(p->q)")], Formula.parse("q"))
 #: Self implication
-I0 = InferenceRule([], Formula.parse('(p->p)'))
+I0 = InferenceRule([], Formula.parse("(p->p)"))
 #: Implication introduction (right)
-I1 = InferenceRule([], Formula.parse('(q->(p->q))'))
+I1 = InferenceRule([], Formula.parse("(q->(p->q))"))
 #: Self-distribution of implication
-D = InferenceRule([], Formula.parse('((p->(q->r))->((p->q)->(p->r)))'))
+D = InferenceRule([], Formula.parse("((p->(q->r))->((p->q)->(p->r)))"))
 
 # Axiomatic inference rules for not (and implies)
 
 #: Implication introduction (left)
-I2 = InferenceRule([], Formula.parse('(~p->(p->q))'))
+I2 = InferenceRule([], Formula.parse("(~p->(p->q))"))
 #: Converse contraposition
-N = InferenceRule([], Formula.parse('((~q->~p)->(p->q))'))
+N = InferenceRule([], Formula.parse("((~q->~p)->(p->q))"))
 #: Negative-implication introduction
-NI = InferenceRule([], Formula.parse('(p->(~q->~(p->q)))'))
+NI = InferenceRule([], Formula.parse("(p->(~q->~(p->q)))"))
 #: Double-negation introduction
-NN = InferenceRule([], Formula.parse('(p->~~p)'))
+NN = InferenceRule([], Formula.parse("(p->~~p)"))
 #: Resolution
-R = InferenceRule([], Formula.parse('((q->p)->((~q->p)->p))'))
+R = InferenceRule([], Formula.parse("((q->p)->((~q->p)->p))"))
 
 #: Large axiomatic system for implication and negation, consisting of `MP`,
 #: `I0`, `I1`, `D`, `I2`, `N`, `NI`, `NN`, and `R`.
@@ -44,38 +43,39 @@ HILBERT_AXIOMATIC_SYSTEM = frozenset({MP, I1, D, N})
 # Axiomatic inference rules for conjunction (and implication and negation)
 
 #: Conjunction introduction
-A = InferenceRule([], Formula.parse('(p->(q->(p&q)))'))
+A = InferenceRule([], Formula.parse("(p->(q->(p&q)))"))
 #: Negative-conjunction introduction (right)
-NA1 = InferenceRule([], Formula.parse('(~q->~(p&q))'))
+NA1 = InferenceRule([], Formula.parse("(~q->~(p&q))"))
 #: Negative-conjunction introduction (left)
-NA2 = InferenceRule([], Formula.parse('(~p->~(p&q))'))
+NA2 = InferenceRule([], Formula.parse("(~p->~(p&q))"))
 
 # Axiomatic inference rules for disjunction (and implication and negation)
 
 # Disjunction introduction (right)
-O1 = InferenceRule([], Formula.parse('(q->(p|q))'))
+O1 = InferenceRule([], Formula.parse("(q->(p|q))"))
 # Disjunction introduction (left)
-O2 = InferenceRule([], Formula.parse('(p->(p|q))'))
+O2 = InferenceRule([], Formula.parse("(p->(p|q))"))
 # Negative-disjunction introduction
-NO = InferenceRule([], Formula.parse('(~p->(~q->~(p|q)))'))
+NO = InferenceRule([], Formula.parse("(~p->(~q->~(p|q)))"))
 
 # Axiomatic inference rules for constants (and implication and negation)
 
 #: Truth introduction
-T =  InferenceRule([], Formula.parse('T'))
+T = InferenceRule([], Formula.parse("T"))
 #: Negative-falsity introduction
-NF = InferenceRule([], Formula.parse('~F'))
+NF = InferenceRule([], Formula.parse("~F"))
 
 #: Large axiomatic system for all operators, consisting of the rules in
 #: `AXIOMATIC_SYSTEM`, as well as `A`, `NA1`, `NA2`, `O1`, `O2`, `NO`, `T`, and
 #: `NF`.
-AXIOMATIC_SYSTEM_FULL = \
-    frozenset(AXIOMATIC_SYSTEM.union({A, NA1, NA2, O1, O2, NO, T, NF}))
+AXIOMATIC_SYSTEM_FULL = frozenset(
+    AXIOMATIC_SYSTEM.union({A, NA1, NA2, O1, O2, NO, T, NF})
+)
 
 # Alternative for N
 
 #: Reductio ad absurdum
-N_ALTERNATIVE = InferenceRule([], Formula.parse('((~q->~p)->((~q->p)->q))'))
+N_ALTERNATIVE = InferenceRule([], Formula.parse("((~q->~p)->((~q->p)->q))"))
 
 #: Hilbert axiomatic system for implication and negation, with `N` replaced by
 #: `N_ALTERNATIVE`.
@@ -84,14 +84,15 @@ HILBERT_AXIOMATIC_SYSTEM_ALTERNATIVE = frozenset({MP, I1, D, N_ALTERNATIVE})
 # Alternatives for NA1, NA2, NO without negation
 
 #: Conjunction elimination (right)
-AE1 = InferenceRule([], Formula.parse('((p&q)->q)'))
+AE1 = InferenceRule([], Formula.parse("((p&q)->q)"))
 #: Conjunction elimination (left)
-AE2 = InferenceRule([], Formula.parse('((p&q)->p)'))
+AE2 = InferenceRule([], Formula.parse("((p&q)->p)"))
 #: Disjunction elimination
-OE = InferenceRule([], Formula.parse('((p->r)->((q->r)->((p|q)->r)))'))
+OE = InferenceRule([], Formula.parse("((p->r)->((q->r)->((p|q)->r)))"))
 
 #: Hilbert axiomatic system for all operators, consisting of the rules in
 #: `HILBERT_AXIOMATIC_SYSTEM`, as well as `A`, `AE1`, `AE2`, `O1`, `O2`, `OE`,
 #: `T`, and `NF`.
-HILBERT_AXIOMATIC_SYSTEM_FULL = \
-    frozenset(HILBERT_AXIOMATIC_SYSTEM.union({A, AE1, AE2, O1, O2, OE, T, NF}))
+HILBERT_AXIOMATIC_SYSTEM_FULL = frozenset(
+    HILBERT_AXIOMATIC_SYSTEM.union({A, AE1, AE2, O1, O2, OE, T, NF})
+)

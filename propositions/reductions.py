@@ -15,7 +15,8 @@ from propositions.semantics import *
 #: A graph on a vertex set of the form ``(1,``...\ ``,``\ `n_vertices`\ ``)``,
 #: represented by the number of vertices `n_vertices` and a set of edges over
 #: the vertices.
-Graph = Tuple[int, AbstractSet[Tuple[int, int]]] 
+Graph = Tuple[int, AbstractSet[Tuple[int, int]]]
+
 
 def is_graph(graph: Graph) -> bool:
     """Checks if the given data structure is a valid representation of a graph.
@@ -35,6 +36,7 @@ def is_graph(graph: Graph) -> bool:
         if edge[0] == edge[1]:
             return False
     return True
+
 
 def is_valid_3coloring(graph: Graph, coloring: Mapping[int, int]) -> bool:
     """Checks whether the given coloring is a valid coloring of the given graph
@@ -59,13 +61,14 @@ def is_valid_3coloring(graph: Graph, coloring: Mapping[int, int]) -> bool:
             return False
     return True
 
+
 def graph3coloring_to_formula(graph: Graph) -> Formula:
     """Efficiently reduces the 3-coloring problem of the given graph into a
     satisfiability problem.
 
     Parameters:
         graph: graph whose 3-coloring problem to reduce.
-       
+
     Returns:
         A propositional formula that is satisfiable if and only if the given
         graph is 3-colorable.
@@ -73,8 +76,8 @@ def graph3coloring_to_formula(graph: Graph) -> Formula:
     assert is_graph(graph)
     # Optional Task 2.10a
 
-def assignment_to_3coloring(graph: Graph, assignment: Model) -> \
-        Mapping[int, int]:
+
+def assignment_to_3coloring(graph: Graph, assignment: Model) -> Mapping[int, int]:
     """Efficiently transforms an assignment to the formula corresponding to the
     3-coloring problem of the given graph, to a 3-coloring of the given graph so
     that the 3-coloring is valid if and only if the given assignment is
@@ -94,6 +97,7 @@ def assignment_to_3coloring(graph: Graph, assignment: Model) -> \
     formula = graph3coloring_to_formula(graph)
     assert evaluate(formula, assignment)
     # Optional Task 2.10b
+
 
 def tricolor_graph(graph: Graph) -> Union[Mapping[int, int], None]:
     """Computes a 3-coloring of the given graph.

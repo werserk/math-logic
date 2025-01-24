@@ -10,6 +10,7 @@ operators."""
 from propositions.syntax import *
 from propositions.semantics import *
 
+
 def to_not_and_or(formula: Formula) -> Formula:
     """Syntactically converts the given formula to an equivalent formula that
     contains no constants or operators beyond ``'~'``, ``'&'``, and ``'|'``.
@@ -24,6 +25,7 @@ def to_not_and_or(formula: Formula) -> Formula:
     """
     # Task 3.5
 
+
 def to_not_and(formula: Formula) -> Formula:
     """Syntactically converts the given formula to an equivalent formula that
     contains no constants or operators beyond ``'~'`` and ``'&'``.
@@ -36,6 +38,7 @@ def to_not_and(formula: Formula) -> Formula:
         contains no constants or operators beyond ``'~'`` and ``'&'``.
     """
     # Task 3.6a
+
 
 def to_nand(formula: Formula) -> Formula:
     """Syntactically converts the given formula to an equivalent formula that
@@ -50,6 +53,7 @@ def to_nand(formula: Formula) -> Formula:
     """
     # Task 3.6b
 
+
 def to_implies_not(formula: Formula) -> Formula:
     """Syntactically converts the given formula to an equivalent formula that
     contains no constants or operators beyond ``'->'`` and ``'~'``.
@@ -62,6 +66,7 @@ def to_implies_not(formula: Formula) -> Formula:
         contains no constants or operators beyond ``'->'`` and ``'~'``.
     """
     # Task 3.6c
+
 
 def to_implies_false(formula: Formula) -> Formula:
     """Syntactically converts the given formula to an equivalent formula that

@@ -12,7 +12,8 @@ from typing import Mapping, Optional, Set, Tuple, Union
 
 from logic_utils import frozen, memoized_parameterless_method
 
-@lru_cache(maxsize=100) # Cache the return value of is_variable
+
+@lru_cache(maxsize=100)  # Cache the return value of is_variable
 def is_variable(string: str) -> bool:
     """Checks if the given string is a variable name.
 
@@ -22,10 +23,14 @@ def is_variable(string: str) -> bool:
     Returns:
         ``True`` if the given string is a variable name, ``False`` otherwise.
     """
-    return string[0] >= 'p' and string[0] <= 'z' and \
-           (len(string) == 1 or string[1:].isdecimal())
+    return (
+        string[0] >= "p"
+        and string[0] <= "z"
+        and (len(string) == 1 or string[1:].isdecimal())
+    )
 
-@lru_cache(maxsize=100) # Cache the return value of is_constant
+
+@lru_cache(maxsize=100)  # Cache the return value of is_constant
 def is_constant(string: str) -> bool:
     """Checks if the given string is a constant.
 
@@ -35,9 +40,10 @@ def is_constant(string: str) -> bool:
     Returns:
         ``True`` if the given string is a constant, ``False`` otherwise.
     """
-    return string == 'T' or string == 'F'
+    return string == "T" or string == "F"
 
-@lru_cache(maxsize=100) # Cache the return value of is_unary
+
+@lru_cache(maxsize=100)  # Cache the return value of is_unary
 def is_unary(string: str) -> bool:
     """Checks if the given string is a unary operator.
 
@@ -47,9 +53,10 @@ def is_unary(string: str) -> bool:
     Returns:
         ``True`` if the given string is a unary operator, ``False`` otherwise.
     """
-    return string == '~'
+    return string == "~"
 
-@lru_cache(maxsize=100) # Cache the return value of is_binary
+
+@lru_cache(maxsize=100)  # Cache the return value of is_binary
 def is_binary(string: str) -> bool:
     """Checks if the given string is a binary operator.
 
@@ -59,9 +66,10 @@ def is_binary(string: str) -> bool:
     Returns:
         ``True`` if the given string is a binary operator, ``False`` otherwise.
     """
-    return string == '&' or string == '|' or string == '->'
+    return string == "&" or string == "|" or string == "->"
     # For Chapter 3:
     # return string in {'&', '|',  '->', '+', '<->', '-&', '-|'}
+
 
 @frozen
 class Formula:
@@ -76,12 +84,17 @@ class Formula:
         second (`~typing.Optional`\\[`Formula`]): the second operand of the
             root, if the root is a binary operator.
     """
+
     root: str
     first: Optional[Formula]
     second: Optional[Formula]
 
-    def __init__(self, root: str, first: Optional[Formula] = None,
-                 second: Optional[Formula] = None):
+    def __init__(
+        self,
+        root: str,
+        first: Optional[Formula] = None,
+        second: Optional[Formula] = None,
+    ):
         """Initializes a `Formula` from its root and root operands.
 
         Parameters:
@@ -156,7 +169,7 @@ class Formula:
             current formula.
         """
         # Task 1.3
-        
+
     @staticmethod
     def _parse_prefix(string: str) -> Tuple[Union[Formula, None], str]:
         """Parses a prefix of the given string into a formula.
@@ -188,7 +201,7 @@ class Formula:
             representation of a formula, ``False`` otherwise.
         """
         # Task 1.5
-        
+
     @staticmethod
     def parse(string: str) -> Formula:
         """Parses the given valid string representation into a formula.
@@ -222,8 +235,7 @@ class Formula:
         """
         # Optional Task 1.8
 
-    def substitute_variables(self, substitution_map: Mapping[str, Formula]) -> \
-            Formula:
+    def substitute_variables(self, substitution_map: Mapping[str, Formula]) -> Formula:
         """Substitutes in the current formula, each variable name `v` that is a
         key in `substitution_map` with the formula `substitution_map[v]`.
 
@@ -247,8 +259,7 @@ class Formula:
             assert is_variable(variable)
         # Task 3.3
 
-    def substitute_operators(self, substitution_map: Mapping[str, Formula]) -> \
-            Formula:
+    def substitute_operators(self, substitution_map: Mapping[str, Formula]) -> Formula:
         """Substitutes in the current formula, each constant or operator `op`
         that is a key in `substitution_map` with the formula
         `substitution_map[op]` applied to its (zero or one or two) operands,
@@ -272,7 +283,6 @@ class Formula:
             ~(~~(~x|~y)|~~z)
         """
         for operator in substitution_map:
-            assert is_constant(operator) or is_unary(operator) or \
-                   is_binary(operator)
-            assert substitution_map[operator].variables().issubset({'p', 'q'})
+            assert is_constant(operator) or is_unary(operator) or is_binary(operator)
+            assert substitution_map[operator].variables().issubset({"p", "q"})
         # Task 3.4

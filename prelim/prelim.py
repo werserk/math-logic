@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from logic_utils import *
 
+
 def half(x: int) -> int:
     """Halves the given even integer.
 

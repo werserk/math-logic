@@ -9,24 +9,30 @@
 from predicates.syntax_test import *
 from predicates.semantics_test import *
 
+
 def test_task1(debug=False):
     test_term_repr(debug)
 
+
 def test_task2(debug=False):
     test_formula_repr(debug)
+
 
 def test_task3(debug=False):
     test_term_parse_prefix(debug)
     test_term_parse(debug)
 
+
 def test_task4(debug=False):
     test_formula_parse_prefix(debug)
     test_formula_parse(debug)
+
 
 def test_task5(debug=False):
     test_term_constants(debug)
     test_term_variables(debug)
     test_term_functions(debug)
+
 
 def test_task6(debug=False):
     test_formula_constants(debug)
@@ -35,14 +41,18 @@ def test_task6(debug=False):
     test_formula_functions(debug)
     test_relations(debug)
 
+
 def test_task7(debug=False):
     test_evaluate_term(debug)
+
 
 def test_task8(debug=False):
     test_evaluate_formula(debug)
 
+
 def test_task9(debug=False):
     test_is_model_of(debug)
+
 
 test_task1(True)
 test_task2(True)

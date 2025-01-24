@@ -14,6 +14,7 @@ from logic_utils import fresh_variable_name_generator, is_z_and_number
 from predicates.syntax import *
 from predicates.semantics import *
 
+
 def function_name_to_relation_name(function: str) -> str:
     """Converts the given function name to a canonically corresponding relation
     name.
@@ -27,6 +28,7 @@ def function_name_to_relation_name(function: str) -> str:
     """
     assert is_function(function)
     return function[0].upper() + function[1:]
+
 
 def relation_name_to_function_name(relation: str) -> str:
     """Converts the given relation name to a canonically corresponding function
@@ -42,6 +44,7 @@ def relation_name_to_function_name(relation: str) -> str:
     """
     assert is_relation(relation)
     return relation[0].lower() + relation[1:]
+
 
 def replace_functions_with_relations_in_model(model: Model[T]) -> Model[T]:
     """Converts the given model to a canonically corresponding model without any
@@ -63,14 +66,16 @@ def replace_functions_with_relations_in_model(model: Model[T]) -> Model[T]:
         ``(``\ `x2`\ ``,``...\ ``,``\ `xn`\ ``)``.
     """
     for function in model.function_interpretations:
-        assert function_name_to_relation_name(function) not in \
-               model.relation_interpretations
+        assert (
+            function_name_to_relation_name(function)
+            not in model.relation_interpretations
+        )
     # Task 8.1
 
-def replace_relations_with_functions_in_model(model: Model[T],
-                                              original_functions:
-                                              AbstractSet[str]) -> \
-        Union[Model[T], None]:
+
+def replace_relations_with_functions_in_model(
+    model: Model[T], original_functions: AbstractSet[str]
+) -> Union[Model[T], None]:
     """Converts the given model with no function interpretations to a
     canonically corresponding model with interpretations for the given function
     names, having each new function interpretation replace a canonically
@@ -91,9 +96,11 @@ def replace_relations_with_functions_in_model(model: Model[T],
     for function in original_functions:
         assert is_function(function)
         assert function not in model.function_interpretations
-        assert function_name_to_relation_name(function) in \
-               model.relation_interpretations
+        assert (
+            function_name_to_relation_name(function) in model.relation_interpretations
+        )
     # Task 8.2
+
 
 def _compile_term(term: Term) -> List[Formula]:
     """Syntactically compiles the given term into a list of single-function
@@ -121,6 +128,7 @@ def _compile_term(term: Term) -> List[Formula]:
         assert not is_z_and_number(variable)
     # Task 8.3
 
+
 def replace_functions_with_relations_in_formula(formula: Formula) -> Formula:
     """Syntactically converts the given formula to a formula that does not
     contain any function invocations, and is "one-way equivalent" in the sense
@@ -138,16 +146,23 @@ def replace_functions_with_relations_in_formula(formula: Formula) -> Formula:
         only if the returned formula holds in
         `replace_function_with_relations_in_model`\ ``(``\ `model`\ ``)``.
     """
-    assert len({function_name_to_relation_name(function) for
-                function,arity in formula.functions()}.intersection(
-                    {relation for relation,arity in formula.relations()})) == 0
+    assert (
+        len(
+            {
+                function_name_to_relation_name(function)
+                for function, arity in formula.functions()
+            }.intersection({relation for relation, arity in formula.relations()})
+        )
+        == 0
+    )
     for variable in formula.variables():
         assert not is_z_and_number(variable)
     # Task 8.4
 
-def replace_functions_with_relations_in_formulas(formulas:
-                                                 AbstractSet[Formula]) -> \
-        Set[Formula]:
+
+def replace_functions_with_relations_in_formulas(
+    formulas: AbstractSet[Formula],
+) -> Set[Formula]:
     """Syntactically converts the given set of formulas to a set of formulas
     that do not contain any function invocations, and is "two-way
     equivalent" in the sense that:
@@ -177,19 +192,36 @@ def replace_functions_with_relations_in_formulas(formulas:
            where `original_functions` are all the function names in the given
            formulas, is a model and the given formulas hold in it.
     """
-    assert len(set.union(*[{function_name_to_relation_name(function) for
-                            function,arity in formula.functions()}
-                           for formula in formulas]).intersection(
-                               set.union(*[{relation for relation,arity in
-                                            formula.relations()} for
-                                           formula in formulas]))) == 0
+    assert (
+        len(
+            set.union(
+                *[
+                    {
+                        function_name_to_relation_name(function)
+                        for function, arity in formula.functions()
+                    }
+                    for formula in formulas
+                ]
+            ).intersection(
+                set.union(
+                    *[
+                        {relation for relation, arity in formula.relations()}
+                        for formula in formulas
+                    ]
+                )
+            )
+        )
+        == 0
+    )
     for formula in formulas:
         for variable in formula.variables():
             assert not is_z_and_number(variable)
     # Task 8.5
-        
-def replace_equality_with_SAME_in_formulas(formulas: AbstractSet[Formula]) -> \
-        Set[Formula]:
+
+
+def replace_equality_with_SAME_in_formulas(
+    formulas: AbstractSet[Formula],
+) -> Set[Formula]:
     """Syntactically converts the given set of formulas to a canonically
     corresponding set of formulas that do not contain any equalities, consisting
     of the following formulas:
@@ -213,10 +245,10 @@ def replace_equality_with_SAME_in_formulas(formulas: AbstractSet[Formula]) -> \
     """
     for formula in formulas:
         assert len(formula.functions()) == 0
-        assert 'SAME' not in \
-               {relation for relation,arity in formula.relations()}
+        assert "SAME" not in {relation for relation, arity in formula.relations()}
     # Task 8.6
-        
+
+
 def add_SAME_as_equality_in_model(model: Model[T]) -> Model[T]:
     """Adds an interpretation of the relation name ``'SAME'`` in the given
     model, that canonically corresponds to equality in the given model.
@@ -231,9 +263,10 @@ def add_SAME_as_equality_in_model(model: Model[T]) -> Model[T]:
         ``(``\ `x`\ ``,``\ `x`\ ``)`` for every element `x` of the universe of
         the given model.
     """
-    assert 'SAME' not in model.relation_interpretations
+    assert "SAME" not in model.relation_interpretations
     # Task 8.7
-    
+
+
 def make_equality_as_SAME_in_model(model: Model[T]) -> Model[T]:
     """Converts the given model to a model where equality coincides with the
     interpretation of ``'SAME'`` in the given model, in the sense that any set
@@ -254,7 +287,8 @@ def make_equality_as_SAME_in_model(model: Model[T]) -> Model[T]:
         the returned model corresponds to the equivalence classes of the
         interpretation of ``'SAME'`` in the given model.
     """
-    assert 'SAME' in model.relation_interpretations and \
-           model.relation_arities['SAME'] == 2
+    assert (
+        "SAME" in model.relation_interpretations and model.relation_arities["SAME"] == 2
+    )
     assert len(model.function_interpretations) == 0
     # Task 8.8

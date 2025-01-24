@@ -10,8 +10,10 @@ from predicates.syntax import *
 from predicates.proofs import *
 from predicates.prover import *
 
-def remove_assumption(proof: Proof, assumption: Formula,
-                      print_as_proof_forms: bool = False) -> Proof:
+
+def remove_assumption(
+    proof: Proof, assumption: Formula, print_as_proof_forms: bool = False
+) -> Proof:
     """Converts the given proof of some `conclusion` formula, an assumption of
     which is `assumption`, to a proof of
     ``'(``\ `assumption`\ ``->``\ `conclusion`\ ``)'`` from the same assumptions
@@ -30,7 +32,7 @@ def remove_assumption(proof: Proof, assumption: Formula,
     Returns:
         A valid proof of ``'(``\ `assumption`\ ``->``\ `conclusion`\ ``)'``
         from the same assumptions/axioms as the given proof except `assumption`.
-    """        
+    """
     assert proof.is_valid()
     assert Schema(assumption) in proof.assumptions
     assert proof.assumptions.issuperset(Prover.AXIOMS)
@@ -38,6 +40,7 @@ def remove_assumption(proof: Proof, assumption: Formula,
         if isinstance(line, Proof.UGLine):
             assert line.formula.variable not in assumption.free_variables()
     # Task 11.1
+
 
 def prove_by_way_of_contradiction(proof: Proof, assumption: Formula) -> Proof:
     """Converts the given proof of a contradiction, an assumption of which is

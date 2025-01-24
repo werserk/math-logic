@@ -8,7 +8,9 @@
 
 from prelim.prelim_test import test_half
 
+
 def test_task1(debug=False):
     test_half(debug)
+
 
 test_task1(True)
