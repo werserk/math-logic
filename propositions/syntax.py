@@ -166,12 +166,11 @@ class Formula:
             return {self.root}
         elif is_constant(self.root):
             return set()
-        else:
-            variables = self.first.variables()
-            if is_unary(self.root):
-                return variables
-            variables = variables.union(self.second.variables())
+        variables = self.first.variables()
+        if is_unary(self.root):
             return variables
+        variables = variables.union(self.second.variables())
+        return variables
 
     @memoized_parameterless_method
     def operators(self) -> Set[str]:
