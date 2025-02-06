@@ -14,11 +14,10 @@ from typing import (
     List,
     Mapping,
     Sequence,
-    Tuple,
     Union,
 )
 
-from logic_utils import fresh_variable_name_generator, is_z_and_number
+from logic_utils import is_z_and_number
 
 from predicates.syntax import *
 from predicates.proofs import *

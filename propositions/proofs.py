@@ -10,7 +10,6 @@ from __future__ import annotations
 from typing import (
     AbstractSet,
     FrozenSet,
-    List,
     Mapping,
     Optional,
     Sequence,

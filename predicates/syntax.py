@@ -11,14 +11,12 @@ from functools import lru_cache
 from typing import AbstractSet, Mapping, Optional, Sequence, Set, Tuple, Union
 
 from logic_utils import (
-    fresh_variable_name_generator,
     frozen,
     memoized_parameterless_method,
 )
 
 from propositions.syntax import (
     Formula as PropositionalFormula,
-    is_variable as is_propositional_variable,
 )
 
 

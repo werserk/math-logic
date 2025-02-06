@@ -703,12 +703,10 @@ class Proof:
 
 from propositions.proofs import (
     Proof as PropositionalProof,
-    InferenceRule as PropositionalInferenceRule,
     SpecializationMap as PropositionalSpecializationMap,
 )
 from propositions.axiomatic_systems import (
     AXIOMATIC_SYSTEM as PROPOSITIONAL_AXIOMATIC_SYSTEM,
-    MP,
     I0,
     I1,
     D,
@@ -718,7 +716,6 @@ from propositions.axiomatic_systems import (
     NN,
     R,
 )
-from propositions.tautology import prove_tautology as prove_propositional_tautology
 
 # Schema equivalents of the propositional-logic axioms for implication and
 # negation

@@ -8,7 +8,6 @@
 
 from typing import AbstractSet, Container, Set, Union
 
-from logic_utils import fresh_constant_name_generator
 
 from predicates.syntax import *
 from predicates.semantics import *

@@ -10,7 +10,6 @@ from predicates.syntax import *
 from predicates.proofs import *
 from predicates.prover import *
 from predicates.deduction import *
-from predicates.prenex import equivalence_of
 
 
 def prove_syllogism(print_as_proof_forms: bool = False) -> Proof:
