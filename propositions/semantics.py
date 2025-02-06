@@ -6,9 +6,9 @@
 
 """Semantic analysis of propositional-logic constructs."""
 
-from typing import AbstractSet, Iterable, Iterator, Mapping, Sequence, Tuple
+from itertools import product
+from typing import Iterable
 
-from propositions.syntax import *
 from propositions.proofs import *
 
 #: A model for propositional-logic formulas, a mapping from variable names to
@@ -66,30 +66,42 @@ def evaluate(formula: Formula, model: Model) -> bool:
     """
     assert is_model(model)
     assert formula.variables().issubset(variables(model))
-    # Task 2.1
+    if is_variable(formula.root):
+        return model[formula.root]
+    elif is_constant(formula.root):
+        return True if formula.root == "T" else False
+    elif is_unary(formula.root):
+        return not evaluate(formula.first, model)
+    else:
+        left_val = evaluate(formula.first, model)
+        right_val = evaluate(formula.second, model)
+        if formula.root == "&":
+            return left_val and right_val
+        elif formula.root == "|":
+            return left_val or right_val
+        elif formula.root == "->":
+            return (not left_val) or right_val
+        elif formula.root == "+":
+            return (left_val and not right_val) or (not left_val and right_val)
+        elif formula.root == "<->":
+            return left_val == right_val
+        elif formula.root == "-&":
+            return not (left_val and right_val)
+        elif formula.root == "-|":
+            return not (left_val or right_val)
+        else:
+            raise Exception("Неизвестный оператор: " + formula.root)
 
 
 def all_models(variables: Sequence[str]) -> Iterable[Model]:
     """Calculates all possible models over the given variable names.
 
-    Parameters:
-        variables: variable names over which to calculate the models.
-
-    Returns:
-        An iterable over all possible models over the given variable names. The
-        order of the models is lexicographic according to the order of the given
-        variable names, where False precedes True.
-
-    Examples:
-        >>> list(all_models(['p', 'q']))
-        [{'p': False, 'q': False}, {'p': False, 'q': True}, {'p': True, 'q': False}, {'p': True, 'q': True}]
-
-        >>> list(all_models(['q', 'p']))
-        [{'q': False, 'p': False}, {'q': False, 'p': True}, {'q': True, 'p': False}, {'q': True, 'p': True}]
+    Task 2.2: Перебирает все комбинации значений (False < True) по заданным переменным.
     """
     for v in variables:
         assert is_variable(v)
-    # Task 2.2
+    for values in product([False, True], repeat=len(variables)):
+        yield {v: val for v, val in zip(variables, values)}
 
 
 def truth_values(formula: Formula, models: Iterable[Model]) -> Iterable[bool]:
@@ -100,70 +112,61 @@ def truth_values(formula: Formula, models: Iterable[Model]) -> Iterable[bool]:
         formula: formula to calculate the truth value of.
         models: iterable over models to calculate the truth value in.
 
-    Returns:
-        An iterable over the respective truth values of the given formula in
-        each of the given models, in the order of the given models.
-
-    Examples:
-        >>> list(truth_values(Formula.parse('~(p&q76)'), all_models(['p', 'q76'])))
-        [True, True, True, False]
+    Task 2.3.
     """
-    # Task 2.3
+    return (evaluate(formula, model) for model in models)
 
 
 def print_truth_table(formula: Formula) -> None:
-    """Prints the truth table of the given formula, with variable-name columns
-    sorted alphabetically.
+    """Prints the truth table of the given formula with variable‐name columns sorted alphabetically.
 
-    Parameters:
-        formula: formula to print the truth table of.
-
-    Examples:
-        >>> print_truth_table(Formula.parse('~(p&q76)'))
-        | p | q76 | ~(p&q76) |
-        |---|-----|----------|
-        | F | F   | T        |
-        | F | T   | T        |
-        | T | F   | T        |
-        | T | T   | F        |
+    Task 2.4.
     """
-    # Task 2.4
+    vars_sorted = sorted(formula.variables())
+    headers = list(vars_sorted) + [str(formula)]
+    widths = [max(len(h), 1) for h in headers]
+
+    def format_cell(text, width):
+        return f" {text:^{width}} "
+
+    header_line = "|" + "|".join(format_cell(h, w) for h, w in zip(headers, widths)) + "|"
+    separator_line = "|" + "|".join("-" * (w + 2) for w in widths) + "|"
+    print(header_line)
+    print(separator_line)
+    models_list = list(all_models(vars_sorted))
+    for model in models_list:
+        row_cells = [format_cell("T" if model[v] else "F", w) for v, w in zip(vars_sorted, widths[:-1])]
+        formula_val = "T" if evaluate(formula, model) else "F"
+        row_cells.append(format_cell(formula_val, widths[-1]))
+        row_line = "|" + "|".join(row_cells) + "|"
+        print(row_line)
 
 
 def is_tautology(formula: Formula) -> bool:
     """Checks if the given formula is a tautology.
 
-    Parameters:
-        formula: formula to check.
-
-    Returns:
-        ``True`` if the given formula is a tautology, ``False`` otherwise.
+    Task 2.5a.
     """
-    # Task 2.5a
+    vars_list = sorted(formula.variables())
+    return all(evaluate(formula, model) for model in all_models(vars_list))
 
 
 def is_contradiction(formula: Formula) -> bool:
     """Checks if the given formula is a contradiction.
 
-    Parameters:
-        formula: formula to check.
-
-    Returns:
-        ``True`` if the given formula is a contradiction, ``False`` otherwise.
+    Task 2.5b.
     """
-    # Task 2.5b
+    vars_list = sorted(formula.variables())
+    return all(not evaluate(formula, model) for model in all_models(vars_list))
 
 
 def is_satisfiable(formula: Formula) -> bool:
     """Checks if the given formula is satisfiable.
 
-    Parameters:
-        formula: formula to check.
-
-    Returns:
-        ``True`` if the given formula is satisfiable, ``False`` otherwise.
+    Task 2.5c.
     """
-    # Task 2.5c
+    vars_list = sorted(formula.variables())
+    return any(evaluate(formula, model) for model in all_models(vars_list))
 
 
 def _synthesize_for_model(model: Model) -> Formula:
@@ -171,27 +174,29 @@ def _synthesize_for_model(model: Model) -> Formula:
     clause that evaluates to ``True`` in the given model, and to ``False`` in
     any other model over the same variable names.
 
-    Parameters:
-        model: model over a nonempty set of variable names, in which the
-            synthesized formula is to hold.
-
-    Returns:
-        The synthesized formula.
+    Task 2.6.
     """
     assert is_model(model)
     assert len(model.keys()) > 0
-    # Task 2.6
+    literals = []
+    for v in sorted(model.keys()):
+        if model[v]:
+            literals.append(Formula(v))
+        else:
+            literals.append(Formula("~", Formula(v)))
+    if len(literals) == 1:
+        return literals[0]
+    conj = Formula("&", literals[0], literals[1])
+    for lit in literals[2:]:
+        conj = Formula("&", conj, lit)
+    return conj
 
 
 def synthesize(variables: Sequence[str], values: Iterable[bool]) -> Formula:
     """Synthesizes a propositional formula in DNF over the given variable names,
     that has the specified truth table.
 
-    Parameters:
-        variables: nonempty set of variable names for the synthesized formula.
-        values: iterable over truth values for the synthesized formula in every
-            possible model over the given variable names, in the order returned
-            by `all_models`\ ``(``\ `~synthesize.variables`\ ``)``.
+    Task 2.7.
 
     Returns:
         The synthesized formula.
@@ -206,7 +211,20 @@ def synthesize(variables: Sequence[str], values: Iterable[bool]) -> Formula:
         False
     """
     assert len(variables) > 0
-    # Task 2.7
+    models_list = list(all_models(variables))
+    dnf_clauses = []
+    for model, truth in zip(models_list, values):
+        if truth:
+            dnf_clauses.append(_synthesize_for_model(model))
+    if not dnf_clauses:
+        p = variables[0]
+        return Formula("&", Formula("~", Formula(p)), Formula(p))
+    if len(dnf_clauses) == 1:
+        return dnf_clauses[0]
+    disj = Formula("|", dnf_clauses[0], dnf_clauses[1])
+    for clause in dnf_clauses[2:]:
+        disj = Formula("|", disj, clause)
+    return disj
 
 
 def _synthesize_for_all_except_model(model: Model) -> Formula:
